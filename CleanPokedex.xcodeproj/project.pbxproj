@@ -15,6 +15,13 @@
 		1657A708248881BF006E9346 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 1657A707248881BF006E9346 /* Kingfisher */; };
 		1657A70E2488843C006E9346 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1657A70D2488843C006E9346 /* HomeViewController.swift */; };
 		1657A71024888492006E9346 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1657A70F24888492006E9346 /* HomeView.swift */; };
+		1657A712248893AA006E9346 /* HomeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1657A711248893AA006E9346 /* HomeRouter.swift */; };
+		1657A714248893D9006E9346 /* HomeInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1657A713248893D9006E9346 /* HomeInteractor.swift */; };
+		1657A716248893E9006E9346 /* HomePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1657A715248893E9006E9346 /* HomePresenter.swift */; };
+		1657A718248893FC006E9346 /* HomeWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1657A717248893FC006E9346 /* HomeWorker.swift */; };
+		1657A71B2488996D006E9346 /* Pokemon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1657A71A2488996D006E9346 /* Pokemon.swift */; };
+		1657A71E2488A3DE006E9346 /* HTTPService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1657A71D2488A3DE006E9346 /* HTTPService.swift */; };
+		1657A7202488AF06006E9346 /* HomeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1657A71F2488AF06006E9346 /* HomeModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,6 +46,13 @@
 		1657A6FD24887D4D006E9346 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1657A70D2488843C006E9346 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		1657A70F24888492006E9346 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		1657A711248893AA006E9346 /* HomeRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRouter.swift; sourceTree = "<group>"; };
+		1657A713248893D9006E9346 /* HomeInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeInteractor.swift; sourceTree = "<group>"; };
+		1657A715248893E9006E9346 /* HomePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePresenter.swift; sourceTree = "<group>"; };
+		1657A717248893FC006E9346 /* HomeWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWorker.swift; sourceTree = "<group>"; };
+		1657A71A2488996D006E9346 /* Pokemon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pokemon.swift; sourceTree = "<group>"; };
+		1657A71D2488A3DE006E9346 /* HTTPService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPService.swift; sourceTree = "<group>"; };
+		1657A71F2488AF06006E9346 /* HomeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,12 +95,14 @@
 		1657A6E324887D4C006E9346 /* CleanPokedex */ = {
 			isa = PBXGroup;
 			children = (
-				1657A6E424887D4C006E9346 /* AppDelegate.swift */,
-				1657A6E624887D4C006E9346 /* SceneDelegate.swift */,
-				1657A709248883F8006E9346 /* Scenes */,
 				1657A6ED24887D4D006E9346 /* Assets.xcassets */,
 				1657A6EF24887D4D006E9346 /* LaunchScreen.storyboard */,
 				1657A6F224887D4D006E9346 /* Info.plist */,
+				1657A6E424887D4C006E9346 /* AppDelegate.swift */,
+				1657A6E624887D4C006E9346 /* SceneDelegate.swift */,
+				1657A71C2488A3C5006E9346 /* Services */,
+				1657A71924889942006E9346 /* Models */,
+				1657A709248883F8006E9346 /* Scenes */,
 			);
 			path = CleanPokedex;
 			sourceTree = "<group>";
@@ -111,10 +127,31 @@
 		1657A70A24888407006E9346 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				1657A71F2488AF06006E9346 /* HomeModel.swift */,
 				1657A70F24888492006E9346 /* HomeView.swift */,
+				1657A711248893AA006E9346 /* HomeRouter.swift */,
+				1657A717248893FC006E9346 /* HomeWorker.swift */,
+				1657A715248893E9006E9346 /* HomePresenter.swift */,
+				1657A713248893D9006E9346 /* HomeInteractor.swift */,
 				1657A70D2488843C006E9346 /* HomeViewController.swift */,
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		1657A71924889942006E9346 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				1657A71A2488996D006E9346 /* Pokemon.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		1657A71C2488A3C5006E9346 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				1657A71D2488A3DE006E9346 /* HTTPService.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -223,10 +260,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1657A716248893E9006E9346 /* HomePresenter.swift in Sources */,
 				1657A6E524887D4C006E9346 /* AppDelegate.swift in Sources */,
+				1657A7202488AF06006E9346 /* HomeModel.swift in Sources */,
 				1657A71024888492006E9346 /* HomeView.swift in Sources */,
 				1657A6E724887D4C006E9346 /* SceneDelegate.swift in Sources */,
+				1657A714248893D9006E9346 /* HomeInteractor.swift in Sources */,
+				1657A71E2488A3DE006E9346 /* HTTPService.swift in Sources */,
+				1657A71B2488996D006E9346 /* Pokemon.swift in Sources */,
 				1657A70E2488843C006E9346 /* HomeViewController.swift in Sources */,
+				1657A718248893FC006E9346 /* HomeWorker.swift in Sources */,
+				1657A712248893AA006E9346 /* HomeRouter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

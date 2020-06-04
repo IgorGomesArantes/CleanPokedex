@@ -8,13 +8,14 @@
 
 import UIKit
 
-class HomeView: UIView {
+final class HomeView: UIView {
     // MARK: View properties
-    let tableView: UITableView = UITableView()
+    let pokemonsTableView: UITableView = UITableView()
     
     // MARK: Initialization methods
     override init(frame: CGRect) {
         super.init(frame: frame)
+        initialConfiguration()
     }
     
     required init?(coder: NSCoder) {
@@ -24,5 +25,19 @@ class HomeView: UIView {
 
 // MARK: Configuration methods
 private extension HomeView {
+    func initialConfiguration() {
+        pokemonsTableViewConfiguration()
+    }
     
+    func pokemonsTableViewConfiguration() {
+        addSubview(pokemonsTableView)
+        pokemonsTableView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            pokemonsTableView.topAnchor.constraint(equalTo: topAnchor),
+            pokemonsTableView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            pokemonsTableView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            pokemonsTableView.trailingAnchor.constraint(equalTo: trailingAnchor)
+        ])
+    }
 }
