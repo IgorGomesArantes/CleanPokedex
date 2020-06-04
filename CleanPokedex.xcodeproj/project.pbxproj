@@ -3,17 +3,18 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		1657A6E524887D4C006E9346 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1657A6E424887D4C006E9346 /* AppDelegate.swift */; };
 		1657A6E724887D4C006E9346 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1657A6E624887D4C006E9346 /* SceneDelegate.swift */; };
-		1657A6E924887D4C006E9346 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1657A6E824887D4C006E9346 /* ViewController.swift */; };
-		1657A6EC24887D4C006E9346 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1657A6EA24887D4C006E9346 /* Main.storyboard */; };
 		1657A6EE24887D4D006E9346 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1657A6ED24887D4D006E9346 /* Assets.xcassets */; };
 		1657A6F124887D4D006E9346 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1657A6EF24887D4D006E9346 /* LaunchScreen.storyboard */; };
 		1657A6FC24887D4D006E9346 /* CleanPokedexTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1657A6FB24887D4D006E9346 /* CleanPokedexTests.swift */; };
+		1657A708248881BF006E9346 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 1657A707248881BF006E9346 /* Kingfisher */; };
+		1657A70E2488843C006E9346 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1657A70D2488843C006E9346 /* HomeViewController.swift */; };
+		1657A71024888492006E9346 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1657A70F24888492006E9346 /* HomeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,14 +31,14 @@
 		1657A6E124887D4C006E9346 /* CleanPokedex.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CleanPokedex.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1657A6E424887D4C006E9346 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1657A6E624887D4C006E9346 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		1657A6E824887D4C006E9346 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		1657A6EB24887D4C006E9346 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1657A6ED24887D4D006E9346 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1657A6F024887D4D006E9346 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1657A6F224887D4D006E9346 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1657A6F724887D4D006E9346 /* CleanPokedexTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CleanPokedexTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1657A6FB24887D4D006E9346 /* CleanPokedexTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CleanPokedexTests.swift; sourceTree = "<group>"; };
 		1657A6FD24887D4D006E9346 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1657A70D2488843C006E9346 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		1657A70F24888492006E9346 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,6 +46,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1657A708248881BF006E9346 /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,8 +83,7 @@
 			children = (
 				1657A6E424887D4C006E9346 /* AppDelegate.swift */,
 				1657A6E624887D4C006E9346 /* SceneDelegate.swift */,
-				1657A6E824887D4C006E9346 /* ViewController.swift */,
-				1657A6EA24887D4C006E9346 /* Main.storyboard */,
+				1657A709248883F8006E9346 /* Scenes */,
 				1657A6ED24887D4D006E9346 /* Assets.xcassets */,
 				1657A6EF24887D4D006E9346 /* LaunchScreen.storyboard */,
 				1657A6F224887D4D006E9346 /* Info.plist */,
@@ -97,6 +98,23 @@
 				1657A6FD24887D4D006E9346 /* Info.plist */,
 			);
 			path = CleanPokedexTests;
+			sourceTree = "<group>";
+		};
+		1657A709248883F8006E9346 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				1657A70A24888407006E9346 /* Home */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
+		1657A70A24888407006E9346 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				1657A70F24888492006E9346 /* HomeView.swift */,
+				1657A70D2488843C006E9346 /* HomeViewController.swift */,
+			);
+			path = Home;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -115,6 +133,9 @@
 			dependencies = (
 			);
 			name = CleanPokedex;
+			packageProductDependencies = (
+				1657A707248881BF006E9346 /* Kingfisher */,
+			);
 			productName = CleanPokedex;
 			productReference = 1657A6E124887D4C006E9346 /* CleanPokedex.app */;
 			productType = "com.apple.product-type.application";
@@ -165,6 +186,9 @@
 				Base,
 			);
 			mainGroup = 1657A6D824887D4C006E9346;
+			packageReferences = (
+				1657A706248881BF006E9346 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+			);
 			productRefGroup = 1657A6E224887D4C006E9346 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -182,7 +206,6 @@
 			files = (
 				1657A6F124887D4D006E9346 /* LaunchScreen.storyboard in Resources */,
 				1657A6EE24887D4D006E9346 /* Assets.xcassets in Resources */,
-				1657A6EC24887D4C006E9346 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -200,9 +223,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1657A6E924887D4C006E9346 /* ViewController.swift in Sources */,
 				1657A6E524887D4C006E9346 /* AppDelegate.swift in Sources */,
+				1657A71024888492006E9346 /* HomeView.swift in Sources */,
 				1657A6E724887D4C006E9346 /* SceneDelegate.swift in Sources */,
+				1657A70E2488843C006E9346 /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -225,14 +249,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		1657A6EA24887D4C006E9346 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1657A6EB24887D4C006E9346 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		1657A6EF24887D4D006E9346 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -465,6 +481,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1657A706248881BF006E9346 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.14.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1657A707248881BF006E9346 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1657A706248881BF006E9346 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1657A6D924887D4C006E9346 /* Project object */;
 }
