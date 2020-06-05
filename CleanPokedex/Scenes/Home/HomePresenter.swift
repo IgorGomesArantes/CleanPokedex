@@ -21,11 +21,25 @@ final class HomePresenter {
 // MARK: Presentation logic methods
 extension HomePresenter: HomePresentationLogic {
     func presentFetchedPokemons(response: Home.FetchPokemons.Response) {
-        let displayedPokemons = response.pokemons.map { Home.FetchPokemons.ViewModel.DisplayedPokemon(name: $0.name) }
-        viewController?.displayFetchedPokemons(displayedPokemons: displayedPokemons)
+        viewController?.displayFetchedPokemons(displayedPokemons: getDisplayedPokemons(response))
     }
     
     func presentFetchPokemonsError(withMessage message: String) {
         viewController?.displayFetchPokemonsError(displayedMessage: message)
+    }
+}
+
+// MARK: Private methods
+private extension HomePresenter {
+    func getDisplayedPokemon(pokemon: Pokemon) -> Home.FetchPokemons.ViewModel.DisplayedPokemon {
+        return Home.FetchPokemons.ViewModel.DisplayedPokemon(name: pokemon.name,
+                                                             code: pokemon.code,
+                                                             imageURL: pokemon.imageURL,
+                                                             types: pokemon.types,
+                                                             mainType: pokemon.types.first!)
+    }
+    
+    func getDisplayedPokemons(_ response: Home.FetchPokemons.Response) -> [Home.FetchPokemons.ViewModel.DisplayedPokemon] {
+        return response.pokemons.map { getDisplayedPokemon(pokemon: $0) }
     }
 }

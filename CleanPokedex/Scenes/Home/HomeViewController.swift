@@ -41,11 +41,12 @@ extension HomeViewController {
 extension HomeViewController {
     override func loadView() {
         view = HomeView(frame: .zero)
-        viewConfiguration()
+        tableViewConfiguration()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationControllerConfiguration()
         interactor?.fetchPokemons()
     }
 }
@@ -62,9 +63,15 @@ private extension HomeViewController {
         presenter.viewController = viewController
     }
     
-    func viewConfiguration() {
+    func navigationControllerConfiguration() {
+        title = "Clean Pokédex"
+    }
+    
+    func tableViewConfiguration() {
         homeView.pokemonsTableView.delegate = self
         homeView.pokemonsTableView.dataSource = self
+        
+        homeView.pokemonsTableView.register(PokemonTableViewCell.self, forCellReuseIdentifier: String(describing: PokemonTableViewCell.self))
     }
 }
 
@@ -100,8 +107,8 @@ extension HomeViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        cell.textLabel?.text = displayedPokemons[indexPath.row].name
+        let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PokemonTableViewCell.self), for: indexPath) as! PokemonTableViewCell
+        cell.setup(pokemon: displayedPokemons[indexPath.row])
         return cell
     }
 }

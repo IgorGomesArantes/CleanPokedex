@@ -11,11 +11,10 @@ import Foundation
 struct Pokemon: Decodable {
     let speed: Int
     let total: Int
+    let attack: Int
+    let defense: Int
     let name: String
     let code: String
-    let attack: Int?
-    let defence: Int?
-    let type: [String]
     let height: String
     let weight: String
     let cycles: String
@@ -27,11 +26,12 @@ struct Pokemon: Decodable {
     let healthPoints: Int
     let specialAttack: Int
     let experience: String
-    let specialDefence: Int
+    let specialDefense: Int
     let abilities: [String]
     let evolvedFrom: String
     let xDescription: String
     let yDescription: String
+    let types: [PokemonType]
     let weaknesses: [String]
     let evolutions: [String]
     let malePercentage: String?
@@ -46,7 +46,7 @@ struct Pokemon: Decodable {
         case cycles
         case attack
         case reason
-        case defence
+        case defense
         case category
         case abilities
         case weaknesses
@@ -55,14 +55,14 @@ struct Pokemon: Decodable {
         case code = "id"
         case healthPoints = "hp"
         case imageURL = "imageurl"
-        case type = "typeofpokemon"
+        case types = "typeofpokemon"
         case experience = "base_exp"
         case eggGroups = "egg_groups"
         case evolvedFrom = "evolvedfrom"
         case xDescription = "xdescription"
         case yDescription = "ydescription"
         case specialAttack = "special_attack"
-        case specialDefence = "special_defense"
+        case specialDefense = "special_defense"
         case malePercentage = "male_percentage"
         case femalePercentage = "female_percentage"
     }

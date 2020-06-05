@@ -11,7 +11,7 @@ import Foundation
 enum Home {
     enum FetchPokemons {
         struct Response {
-            var pokemons: [Pokemon]
+            let pokemons: [Pokemon]
         }
         
         struct Request {
@@ -19,7 +19,11 @@ enum Home {
         
         struct ViewModel {
             struct DisplayedPokemon {
-                var name: String
+                let name: String
+                let code: String
+                let imageURL: String
+                let types: [PokemonType]
+                let mainType: PokemonType
             }
             
             var displayedPokemons: [DisplayedPokemon]

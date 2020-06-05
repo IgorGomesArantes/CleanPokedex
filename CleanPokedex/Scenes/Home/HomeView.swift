@@ -39,5 +39,7 @@ private extension HomeView {
             pokemonsTableView.leadingAnchor.constraint(equalTo: leadingAnchor),
             pokemonsTableView.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
+        
+        pokemonsTableView.separatorStyle = .none
     }
 }
