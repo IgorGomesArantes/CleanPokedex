@@ -8,14 +8,15 @@
 
 import UIKit
 
-protocol HomeDisplayLogic {
-    func displayFetchedPokemons(displayedPokemons: [Home.FetchPokemons.ViewModel.DisplayedPokemon])
-    func displayFetchPokemonsError(displayedMessage: String)
+protocol HomeDisplayLogic: class {
+    func displayFetchedPokemons(_ viewModel: Home.FetchPokemons.ViewModel)
+    func displayFetchPokemonsError(_ error: Home.FetchPokemons.Error)
 }
 
 final class HomeViewController: UIViewController {
     // MARK: Properties
-    private var interactor: HomeInteractor?
+    private var interactor: HomeBusinessLogic?
+    private var router: (HomeRoutingLogic & HomeDataPassing)?
     private var displayedPokemons: [Home.FetchPokemons.ViewModel.DisplayedPokemon] = [] {
         didSet {
             DispatchQueue.main.async { [weak self] in
@@ -24,6 +25,7 @@ final class HomeViewController: UIViewController {
         }
     }
     
+    // MARK: View properties
     var homeView: HomeView {
         return view as! HomeView
     }
@@ -55,11 +57,15 @@ extension HomeViewController {
 private extension HomeViewController {
     func initialConfiguration() {
         let viewController = self
+        let router = HomeRouter()
         let presenter = HomePresenter()
         let interactor = HomeInteractor()
         
+        router.dataStore = interactor
+        viewController.router = router
         interactor.presenter = presenter
         viewController.interactor = interactor
+        router.viewController = viewController
         presenter.viewController = viewController
     }
     
@@ -77,8 +83,8 @@ private extension HomeViewController {
 
 // MARK: Private methods
 private extension HomeViewController {
-    func showFetchPokemonsAlertError(displayedMessage: String) {
-        let alert = UIAlertController(title: "Houve um erro ao buscar os Pokemons.", message: displayedMessage, preferredStyle: .alert)
+    func showFetchPokemonsAlertError(message: String) {
+        let alert = UIAlertController(title: "Houve um erro ao buscar os Pokemons.", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Tentar novamente", style: .default, handler: { _ in
             self.interactor?.fetchPokemons()
         }))
@@ -91,12 +97,12 @@ private extension HomeViewController {
 
 // MARK: Display logic methods
 extension HomeViewController: HomeDisplayLogic {
-    func displayFetchedPokemons(displayedPokemons: [Home.FetchPokemons.ViewModel.DisplayedPokemon]) {
-        self.displayedPokemons = displayedPokemons
+    func displayFetchedPokemons(_ viewModel: Home.FetchPokemons.ViewModel) {
+        self.displayedPokemons = viewModel.displayedPokemons
     }
     
-    func displayFetchPokemonsError(displayedMessage: String) {
-        showFetchPokemonsAlertError(displayedMessage: displayedMessage)
+    func displayFetchPokemonsError(_ error: Home.FetchPokemons.Error) {
+        showFetchPokemonsAlertError(message: error.message)
     }
 }
 
@@ -115,5 +121,7 @@ extension HomeViewController: UITableViewDataSource {
 
 // MARK: Table view delegate methods
 extension HomeViewController: UITableViewDelegate {
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        router?.routeToDetails(withIndex: indexPath.row)
+    }
 }

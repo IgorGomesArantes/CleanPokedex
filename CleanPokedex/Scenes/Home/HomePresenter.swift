@@ -15,17 +15,17 @@ protocol HomePresentationLogic {
 
 final class HomePresenter {
     // MARK: Properties
-    weak var viewController: HomeViewController?
+    weak var viewController: HomeDisplayLogic?
 }
 
 // MARK: Presentation logic methods
 extension HomePresenter: HomePresentationLogic {
     func presentFetchedPokemons(response: Home.FetchPokemons.Response) {
-        viewController?.displayFetchedPokemons(displayedPokemons: getDisplayedPokemons(response))
+        viewController?.displayFetchedPokemons(Home.FetchPokemons.ViewModel(displayedPokemons: getDisplayedPokemons(response.pokemons)))
     }
     
     func presentFetchPokemonsError(withMessage message: String) {
-        viewController?.displayFetchPokemonsError(displayedMessage: message)
+        viewController?.displayFetchPokemonsError(Home.FetchPokemons.Error(message: message))
     }
 }
 
@@ -39,7 +39,7 @@ private extension HomePresenter {
                                                              mainType: pokemon.types.first!)
     }
     
-    func getDisplayedPokemons(_ response: Home.FetchPokemons.Response) -> [Home.FetchPokemons.ViewModel.DisplayedPokemon] {
-        return response.pokemons.map { getDisplayedPokemon(pokemon: $0) }
+    func getDisplayedPokemons(_ pokemons: [Pokemon]) -> [Home.FetchPokemons.ViewModel.DisplayedPokemon] {
+        return pokemons.map { getDisplayedPokemon(pokemon: $0) }
     }
 }

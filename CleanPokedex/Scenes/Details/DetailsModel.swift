@@ -1,19 +1,19 @@
 //
-//  HomeModel.swift
+//  DetailsModel.swift
 //  CleanPokedex
 //
-//  Created by Igor Gomes Arantes on 04/06/20.
+//  Created by Igor Gomes Arantes on 06/06/20.
 //  Copyright © 2020 Igor Gomes Arantes. All rights reserved.
 //
 
 import Foundation
 
-enum Home {
-    enum FetchPokemons {
+enum Details {
+    enum ShowDetails {
         struct Response {
-            let pokemons: [Pokemon]
+            let pokemon: Pokemon
         }
-
+        
         struct ViewModel {
             struct DisplayedPokemon {
                 let name: String
@@ -23,11 +23,7 @@ enum Home {
                 let mainType: PokemonType
             }
             
-            let displayedPokemons: [DisplayedPokemon]
-        }
-        
-        struct Error {
-            let message: String
+            let displayedPokemon: DisplayedPokemon
         }
     }
 }
