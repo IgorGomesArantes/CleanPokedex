@@ -97,6 +97,7 @@ private extension DetailsViewController {
         customView.informationTableView.delegate = self
         customView.informationTableView.dataSource = self
         
+        customView.informationTableView.register(StatsTableViewCell.self, forCellReuseIdentifier: String(describing: StatsTableViewCell.self))
         customView.informationTableView.register(OverviewTableViewCell.self, forCellReuseIdentifier: String(describing: OverviewTableViewCell.self))
         customView.informationTableView.register(KeyValueTableViewCell.self, forCellReuseIdentifier: String(describing: KeyValueTableViewCell.self))
     }
@@ -157,7 +158,7 @@ extension DetailsViewController: UITableViewDataSource {
         switch displayedCells[section] {
         case .overview:
             return 1
-        case .baseStats(let data):
+        case .stats(let data):
             return data.1.count
         case .keyValue(let data):
             return data.1.count
@@ -176,6 +177,10 @@ extension DetailsViewController: UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: KeyValueTableViewCell.self), for: indexPath) as! KeyValueTableViewCell
             cell.setup(data: data.1[indexPath.row])
             return cell
+        case .stats(let data):
+            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: StatsTableViewCell.self), for: indexPath) as! StatsTableViewCell
+            cell.setup(stats: data.1[indexPath.row])
+            return cell
         default:
             return UITableViewCell()
         }
@@ -184,11 +189,11 @@ extension DetailsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch displayedCells[section] {
         case .evolution(let data):
-            return data.0
+            return data.0.title
         case .keyValue(let data):
-            return data.0
-        case .baseStats(let data):
-            return data.0
+            return data.0.title
+        case .stats(let data):
+            return data.0.title
         case .overview:
             return nil
         }
@@ -200,8 +205,18 @@ extension DetailsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         let header = view as! UITableViewHeaderFooterView
         header.tintColor = .white
-        header.textLabel?.textColor = UIColor(red: 98/255, green: 185/255, blue: 87/255, alpha: 1)
         header.textLabel?.font = UIFont.boldSystemFont(ofSize: 14)
+        
+        switch displayedCells[section] {
+        case .evolution(let data):
+            header.textLabel?.textColor = UIColor.getPokemonColor(withType: data.0.mainType)
+        case .keyValue(let data):
+            header.textLabel?.textColor = UIColor.getPokemonColor(withType: data.0.mainType)
+        case .stats(let data):
+            header.textLabel?.textColor = UIColor.getPokemonColor(withType: data.0.mainType)
+        case .overview:
+            break
+        }
     }
 }
 

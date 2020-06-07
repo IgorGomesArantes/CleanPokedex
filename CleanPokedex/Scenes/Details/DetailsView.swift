@@ -35,7 +35,6 @@ class DetailsView: UIView {
 extension DetailsView {
     override func draw(_ rect: CGRect) {
         super.draw(rect)
-        
         informationTableView.layer.cornerRadius = 25
         informationTableView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
     }
@@ -179,6 +178,7 @@ private extension DetailsView {
         informationTableView.separatorStyle = .none
         informationTableView.estimatedRowHeight = 150
         informationTableView.rowHeight = UITableView.automaticDimension
+        informationTableView.contentInset = UIEdgeInsets(top: 30, left: 0, bottom: 0, right: 0)
     }
 }
 

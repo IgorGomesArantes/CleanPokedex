@@ -36,24 +36,31 @@ enum Details {
     enum ShowTabInformations {
         struct Response {
             let pokemon: Pokemon
+            let mainType: PokemonType
         }
         
         struct ViewModel {
+            struct HeaderData {
+                let title: String
+                let mainType: PokemonType
+            }
+            
             enum CellType {
                 case overview(Overview)
-                case baseStats((String, [BaseStats]))
-                case evolution((String, [Evolution]))
-                case keyValue((String, [(String, String)]))
+                case stats((HeaderData, [Stats]))
+                case evolution((HeaderData, [Evolution]))
+                case keyValue((HeaderData, [(String, String)]))
             }
             
             struct Overview {
                 let text: String
             }
             
-            struct BaseStats {
-                let tag: String
+            struct Stats {
+                let key: String
                 let value: String
                 let valuePercent: Float
+                let mainType: PokemonType
             }
             
             struct Evolution {

@@ -29,10 +29,6 @@ extension DetailsPresenter: DetailsPresentationLogic {
         viewController?.displayTabs(Details.ShowTabs.ViewModel(displayedTabs: response.tabs.map { $0.rawValue }))
     }
     
-    func presentAboutTab(_ response: Details.ShowTabInformations.Response) {
-        viewController?.displayTabInformations(Details.ShowTabInformations.ViewModel(displayedCells: getAboutTabInformation(pokemon: response.pokemon)))
-    }
-    
     func presentDetails(_ response: Details.ShowDetails.Response) {
         viewController?.displayDetails(Details.ShowDetails.ViewModel(displayedPokemon: getDisplayedPokemon(pokemon: response.pokemon)))
     }
@@ -45,12 +41,16 @@ extension DetailsPresenter: DetailsPresentationLogic {
         viewController?.displaySelectTab(Details.SelectTab.ViewModel(indexPath: response.indexPath))
     }
     
+    func presentAboutTab(_ response: Details.ShowTabInformations.Response) {
+        viewController?.displayTabInformations(Details.ShowTabInformations.ViewModel(displayedCells: getAboutTabInformation(pokemon: response.pokemon, mainType: response.mainType)))
+    }
+    
     func presentStatsTab(_ response: Details.ShowTabInformations.Response) {
-        viewController?.displayTabInformations(Details.ShowTabInformations.ViewModel(displayedCells: getStatsInformation(pokemon: response.pokemon)))
+        viewController?.displayTabInformations(Details.ShowTabInformations.ViewModel(displayedCells: getStatsInformation(pokemon: response.pokemon, mainType: response.mainType)))
     }
     
     func presentEvolutionTab(_ response: Details.ShowTabInformations.Response) {
-        
+        viewController?.displayTabInformations(Details.ShowTabInformations.ViewModel(displayedCells: getEvolutionTabInformation(pokemon: response.pokemon)))
     }
 }
 
@@ -64,7 +64,7 @@ private extension DetailsPresenter {
                                                               mainType: pokemon.types.first!)
     }
     
-    func getAboutTabInformation(pokemon: Pokemon) -> [Details.ShowTabInformations.ViewModel.CellType] {
+    func getAboutTabInformation(pokemon: Pokemon, mainType: PokemonType) -> [Details.ShowTabInformations.ViewModel.CellType] {
         let overview = Details.ShowTabInformations.ViewModel.Overview(text: pokemon.xDescription)
         
         let height = ("Height", pokemon.height)
@@ -75,23 +75,60 @@ private extension DetailsPresenter {
         let reducedAbilities = pokemon.abilities.reduce("", { (result, value) in "\(result)\(value), " })
         let abilities = ("Abilities", String(reducedAbilities.prefix(reducedAbilities.count - 2)))
         
-        let pokedexDataSection = Details.ShowTabInformations.ViewModel.CellType.keyValue(("Pokédex Data", [height, weight, abilities]))
-        let breedingSection = Details.ShowTabInformations.ViewModel.CellType.keyValue(("Breeding", [gender, eggGroups, eggCycles]))
+        let pokedexHeaderData = Details.ShowTabInformations.ViewModel.HeaderData(title: "Pokédex Data", mainType: mainType)
+        let breedingHeaderData = Details.ShowTabInformations.ViewModel.HeaderData(title: "Breeding", mainType: mainType)
+        
+        let pokedexDataSection = Details.ShowTabInformations.ViewModel.CellType.keyValue((pokedexHeaderData, [height, weight, abilities]))
+        let breedingSection = Details.ShowTabInformations.ViewModel.CellType.keyValue((breedingHeaderData, [gender, eggGroups, eggCycles]))
         let overviewSection = Details.ShowTabInformations.ViewModel.CellType.overview(overview)
         
         return [overviewSection, pokedexDataSection, breedingSection]
     }
     
-    func getStatsInformation(pokemon: Pokemon) -> [Details.ShowTabInformations.ViewModel.CellType] {
-        let overview = Details.ShowTabInformations.ViewModel.Overview(text: pokemon.xDescription)
+    func getStatsInformation(pokemon: Pokemon, mainType: PokemonType) -> [Details.ShowTabInformations.ViewModel.CellType] {
+        let healthPoints = Details.ShowTabInformations.ViewModel.Stats(key: "HP",
+                                                                       value: String(pokemon.healthPoints),
+                                                                       valuePercent: Float(pokemon.healthPoints) / 100.0,
+                                                                       mainType: mainType)
         
-        let height = ("Height", pokemon.height)
-        let weight = ("Weight", pokemon.weight)
-        let abilities = ("Abilities", pokemon.abilities.reduce("", { (result, value) in "\(result)\(value), " }))
+        let attack = Details.ShowTabInformations.ViewModel.Stats(key: "Attack",
+                                                                 value: String(pokemon.attack),
+                                                                 valuePercent: Float(pokemon.attack) / 100.0,
+                                                                 mainType: mainType)
         
-        let pokedexDataSection = Details.ShowTabInformations.ViewModel.CellType.keyValue(("Pokédex Data", [height, weight, abilities]))
-        let overviewSection = Details.ShowTabInformations.ViewModel.CellType.overview(overview)
+        let defense = Details.ShowTabInformations.ViewModel.Stats(key: "Defense",
+                                                                  value: String(pokemon.defense),
+                                                                  valuePercent: Float(pokemon.defense) / 100.0,
+                                                                  mainType: mainType)
         
-        return [overviewSection, pokedexDataSection]
+        let specialAttack = Details.ShowTabInformations.ViewModel.Stats(key: "Sp. Atk",
+                                                                        value: String(pokemon.specialAttack),
+                                                                        valuePercent: Float(pokemon.specialAttack) / 100.0,
+                                                                        mainType: mainType)
+        
+        let specialDefense = Details.ShowTabInformations.ViewModel.Stats(key: "Sp. Def",
+                                                                         value: String(pokemon.specialDefense),
+                                                                         valuePercent: Float(pokemon.specialDefense) / 100.0,
+                                                                         mainType: mainType)
+        
+        let speed = Details.ShowTabInformations.ViewModel.Stats(key: "Speed",
+                                                                value: String(pokemon.speed),
+                                                                valuePercent: Float(pokemon.speed) / 100.0,
+                                                                mainType: mainType)
+        
+        let totalSum = pokemon.healthPoints + pokemon.attack + pokemon.defense + pokemon.specialAttack + pokemon.specialDefense + pokemon.speed
+        let total = Details.ShowTabInformations.ViewModel.Stats(key: "Total",
+                                                                value: String(totalSum),
+                                                                valuePercent: Float(totalSum) / 600.0,
+                                                                mainType: mainType)
+
+        let statsHeaderData = Details.ShowTabInformations.ViewModel.HeaderData(title: "Base Stats", mainType: mainType)
+        let statsSection = Details.ShowTabInformations.ViewModel.CellType.stats((statsHeaderData, [healthPoints, attack, defense, specialAttack, specialDefense, speed, total]))
+        
+        return [statsSection]
+    }
+    
+    func getEvolutionTabInformation(pokemon: Pokemon) -> [Details.ShowTabInformations.ViewModel.CellType] {
+        return []
     }
 }

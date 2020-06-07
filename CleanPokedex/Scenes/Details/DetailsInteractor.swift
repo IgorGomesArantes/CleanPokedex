@@ -64,11 +64,11 @@ private extension DetailsInteractor {
     func showTabInformations() {
         switch tabs[selectedTab.row] {
         case .about:
-            presenter?.presentAboutTab(Details.ShowTabInformations.Response(pokemon: pokemon))
+            presenter?.presentAboutTab(Details.ShowTabInformations.Response(pokemon: pokemon, mainType: pokemon.types.first!))
         case .stats:
-            presenter?.presentStatsTab(Details.ShowTabInformations.Response(pokemon: pokemon))
+            presenter?.presentStatsTab(Details.ShowTabInformations.Response(pokemon: pokemon, mainType: pokemon.types.first!))
         case .evolution:
-            presenter?.presentEvolutionTab(Details.ShowTabInformations.Response(pokemon: pokemon))
+            presenter?.presentEvolutionTab(Details.ShowTabInformations.Response(pokemon: pokemon, mainType: pokemon.types.first!))
         }
     }
 }

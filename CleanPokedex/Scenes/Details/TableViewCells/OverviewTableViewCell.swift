@@ -46,7 +46,7 @@ private extension OverviewTableViewCell {
         overviewLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            overviewLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 40),
+            overviewLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
             overviewLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
             overviewLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             overviewLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
