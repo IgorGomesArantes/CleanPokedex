@@ -8,7 +8,7 @@
 
 import UIKit
 
-class StatsTableViewCell: UITableViewCell {
+final class StatsTableViewCell: UITableViewCell {
     // MARK: View properties
     let keyLabel: UILabel = UILabel()
     let valueLabel: UILabel = UILabel()

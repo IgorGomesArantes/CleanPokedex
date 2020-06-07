@@ -129,6 +129,15 @@ private extension DetailsPresenter {
     }
     
     func getEvolutionTabInformation(pokemon: Pokemon) -> [Details.ShowTabInformations.ViewModel.CellType] {
-        return []
+        
+        let first = Details.ShowTabInformations.ViewModel.Evolution(
+            reason: "Teste (123)",
+            initial: Details.ShowTabInformations.ViewModel.Evolution.Pokemon(code: pokemon.code, name: pokemon.name, imageURL: pokemon.imageURL),
+            evolved: Details.ShowTabInformations.ViewModel.Evolution.Pokemon(code: pokemon.code, name: pokemon.name, imageURL: pokemon.imageURL))
+        
+        let evolutionHeaderData = Details.ShowTabInformations.ViewModel.HeaderData(title: "Evolution Chart", mainType: PokemonType.dark)
+        let evolutionSection = Details.ShowTabInformations.ViewModel.CellType.evolution((evolutionHeaderData, [first]))
+        
+        return [evolutionSection, evolutionSection, evolutionSection]
     }
 }

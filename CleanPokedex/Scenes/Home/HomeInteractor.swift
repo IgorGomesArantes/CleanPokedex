@@ -18,7 +18,7 @@ protocol HomeBusinessLogic {
 
 final class HomeInteractor: HomeDataStore {
     // MARK: Properties
-    var worker: HomeStore = HomeWorker()
+    var worker: HomeStore = MockedHomeWorker()//HomeWorker()
     var presenter: HomePresentationLogic?
     
     // MARK: Data store properties

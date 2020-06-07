@@ -24,3 +24,23 @@ final class HomeWorker: HomeStore {
         }
     }
 }
+
+final class MockedHomeWorker: HomeStore {
+    // MARK: Store methods
+    func requestPokemons(completion: @escaping (Result<[Pokemon], Error>) -> Void) {
+        let pokemons = try! JSONDecoder().decode([Pokemon].self, from: MockedHomeWorker.getData(forResource: "mocked_pokemons"))
+        completion(.success(pokemons))
+    }
+    
+    // MARK: Private methods
+    static func getData(forResource resource: String) -> Data {
+        
+        let bundle = Bundle(for: self)
+        guard let path = bundle.path(forResource: resource, ofType: "json"),
+            let data = try? Data(contentsOf: URL(fileURLWithPath: path)) else {
+                fatalError("Recurso não encontrado")
+        }
+        
+        return data
+    }
+}

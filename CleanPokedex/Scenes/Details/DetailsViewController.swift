@@ -100,6 +100,7 @@ private extension DetailsViewController {
         customView.informationTableView.register(StatsTableViewCell.self, forCellReuseIdentifier: String(describing: StatsTableViewCell.self))
         customView.informationTableView.register(OverviewTableViewCell.self, forCellReuseIdentifier: String(describing: OverviewTableViewCell.self))
         customView.informationTableView.register(KeyValueTableViewCell.self, forCellReuseIdentifier: String(describing: KeyValueTableViewCell.self))
+        customView.informationTableView.register(EvolutionTableViewCell.self, forCellReuseIdentifier: String(describing: EvolutionTableViewCell.self))
     }
 }
 
@@ -181,8 +182,10 @@ extension DetailsViewController: UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: StatsTableViewCell.self), for: indexPath) as! StatsTableViewCell
             cell.setup(stats: data.1[indexPath.row])
             return cell
-        default:
-            return UITableViewCell()
+        case .evolution(let data):
+            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: EvolutionTableViewCell.self), for: indexPath) as! EvolutionTableViewCell
+            cell.setup(data.1[indexPath.row])
+            return cell
         }
     }
     
