@@ -9,10 +9,10 @@
 import Foundation
 
 protocol DetailsBusinessLogic {
-    func showAbout()
-    func showStats()
+    func start()
+    func showTabs()
     func showDetails()
-    func showEvolution()
+    func selectTab(withIndexPath indexPath: IndexPath)
 }
 
 protocol DetailsDataStore {
@@ -25,23 +25,50 @@ final class DetailsInteractor: DetailsDataStore {
     
     // MARK: Properties
     var presenter: DetailsPresentationLogic?
+    let tabs: [Details.TabType] = [.about, .stats, .evolution]
+    
+    var selectedTab: IndexPath = IndexPath(row: 1, section: 0) {
+        didSet {
+            showTabInformations()
+        }
+    }
 }
 
 // MARK: Business logic methods
 extension DetailsInteractor: DetailsBusinessLogic {
+    func start() {
+        showTabs()
+        showDetails()
+    }
+    
+    func selectTab(withIndexPath indexPath: IndexPath) {
+        guard indexPath.row != selectedTab.row else { return }
+        
+        presenter?.presentSelectedTab(Details.SelectTab.Response(indexPath: indexPath))
+        presenter?.presentDeselecTab(Details.SelectTab.Response(indexPath: selectedTab))
+        
+        selectedTab = indexPath
+    }
+    
+    func showTabs() {
+        presenter?.presentTabs(Details.ShowTabs.Response(tabs: tabs))
+    }
+    
     func showDetails() {
-        presenter?.presentDetails(response: Details.ShowDetails.Response(pokemon: pokemon))
+        presenter?.presentDetails(Details.ShowDetails.Response(pokemon: pokemon))
     }
-    
-    func showAbout() {
-        
-    }
-    
-    func showStats() {
-        
-    }
-    
-    func showEvolution() {
-        
+}
+
+// MARK: Private methods
+private extension DetailsInteractor {
+    func showTabInformations() {
+        switch tabs[selectedTab.row] {
+        case .about:
+            presenter?.presentAboutTab(Details.ShowTabInformations.Response(pokemon: pokemon))
+        case .stats:
+            presenter?.presentStatsTab(Details.ShowTabInformations.Response(pokemon: pokemon))
+        case .evolution:
+            presenter?.presentEvolutionTab(Details.ShowTabInformations.Response(pokemon: pokemon))
+        }
     }
 }

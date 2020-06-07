@@ -15,8 +15,10 @@ class DetailsView: UIView {
     let containerView: UIView = UIView()
     let tagsStackView: UIStackView = UIStackView()
     let pokemonImageView: UIImageView = UIImageView()
+    let informationTableView: UITableView = UITableView()
     let backgroudCircleImageView: UIImageView = UIImageView()
     let backgroundDetailImageView: UIImageView = UIImageView()
+    let tabsCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: buildFlowLayout())
     
     // MARK: Initialization methods
     override init(frame: CGRect) {
@@ -26,6 +28,16 @@ class DetailsView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+// MARK: Overrided methods
+extension DetailsView {
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
+        
+        informationTableView.layer.cornerRadius = 25
+        informationTableView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
     }
 }
 
@@ -39,6 +51,8 @@ private extension DetailsView {
         nameLabelConfiguration()
         backgroundDetailImageViewConfiguration()
         tagsStackViewConfiguration()
+        tabsCollectionViewConfiguration()
+        informationTableViewConfiguration()
     }
     
     func containerViewConfiguration() {
@@ -135,4 +149,44 @@ private extension DetailsView {
         tagsStackView.spacing = 5
         tagsStackView.axis = .horizontal
     }
+    
+    func tabsCollectionViewConfiguration() {
+        addSubview(tabsCollectionView)
+        tabsCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            tabsCollectionView.heightAnchor.constraint(equalToConstant: 50),
+            tabsCollectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            tabsCollectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            tabsCollectionView.topAnchor.constraint(equalTo: containerView.bottomAnchor)
+        ])
+        
+        tabsCollectionView.isScrollEnabled = false
+        tabsCollectionView.backgroundColor = .clear
+    }
+    
+    func informationTableViewConfiguration() {
+        addSubview(informationTableView)
+        informationTableView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            informationTableView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            informationTableView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            informationTableView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            informationTableView.topAnchor.constraint(equalTo: tabsCollectionView.bottomAnchor)
+        ])
+        
+        informationTableView.separatorStyle = .none
+        informationTableView.estimatedRowHeight = 150
+        informationTableView.rowHeight = UITableView.automaticDimension
+    }
+}
+
+// MARK: Private methods
+private func buildFlowLayout() -> UICollectionViewFlowLayout {
+    let flowLayout = UICollectionViewFlowLayout()
+    flowLayout.scrollDirection = .horizontal
+    flowLayout.minimumLineSpacing = 0
+    
+    return flowLayout
 }

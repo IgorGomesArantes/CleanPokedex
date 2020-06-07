@@ -34,7 +34,7 @@ final class HomeViewController: UIViewController {
 // MARK: Initialization methods
 extension HomeViewController {
     convenience init() {
-        self.init(nibName:nil, bundle:nil)
+        self.init(nibName: nil, bundle: nil)
         initialConfiguration()
     }
 }
