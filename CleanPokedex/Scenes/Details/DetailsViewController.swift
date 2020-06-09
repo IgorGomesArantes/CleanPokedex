@@ -11,12 +11,6 @@ import UIKit
 protocol DetailsDisplayLogic: class {
     func displayDetails(_ viewModel: Details.ShowDetails.ViewModel)
     func displaySelectTab(_ viewModel: Details.SelectTab.ViewModel)
-    
-//    func displayTabs(_ viewModel: Details.ShowTabs.ViewModel)
-//    func displayDetails(_ viewModel: Details.ShowDetails.ViewModel)
-//    func displaySelectTab(_ viewModel: Details.SelectTab.ViewModel)
-//    func displayDeselectTab(_ viewModel: Details.SelectTab.ViewModel)
-//    func displayTabInformations(_ viewModel: Details.ShowTabInformations.ViewModel)
 }
 
 final class DetailsViewController: UIViewController {
@@ -128,17 +122,12 @@ private extension DetailsViewController {
         setupTags(displayedPokemon.types)
         customView.codeLabel.text = displayedPokemon.code
         customView.nameLabel.text = displayedPokemon.name
+        customView.backgroundColor = displayedPokemon.backgroundColor
         customView.pokemonImageView.kf.setImage(with: URL(string: displayedPokemon.imageURL)!)
-        customView.backgroundColor = UIColor.getPokemonBackgroundColor(withType: displayedPokemon.mainType)
     }
     
     func setupTags(_ types: [PokemonType]) {
-        types.forEach { setupTag(forType: $0) }
-    }
-    
-    func setupTag(forType type: PokemonType) {
-        let imageView = UIImageView(image: UIImage.getPokemonTag(withType: type))
-        customView.tagsStackView.addArrangedSubview(imageView)
+        types.forEach { customView.tagsStackView.addArrangedSubview(UIImageView(image: $0.tagImage)) }
     }
 }
 

@@ -6,24 +6,28 @@
 //  Copyright © 2020 Igor Gomes Arantes. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 enum Home {
     enum FetchPokemons {
         struct Request { }
         
-        enum Response {
-            case success([Pokemon])
-            case failure(Error)
+        struct Response {
+            enum Result {
+                case success([Pokemon])
+                case failure(Error)
+            }
+            
+            let result: Result
         }
-//TODO: Change to Struct
-        enum ViewModel {
+
+        struct ViewModel {
             struct DisplayedPokemon {
                 let name: String
                 let code: String
                 let imageURL: String
                 let types: [PokemonType]
-                let mainType: PokemonType
+                let backgroundColor: UIColor
             }
             
             struct DisplayedError {
@@ -32,8 +36,12 @@ enum Home {
                 let buttonTitle: String
             }
             
-            case success([DisplayedPokemon])
-            case failure(DisplayedError)
+            enum Result {
+                case success([DisplayedPokemon])
+                case failure(DisplayedError)
+            }
+            
+            let result: Result
         }
     }
 }

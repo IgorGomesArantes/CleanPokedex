@@ -18,8 +18,8 @@ protocol HomeBusinessLogic {
 
 final class HomeInteractor: HomeDataStore {
     // MARK: Properties
-    var worker: PokemonStore = MockedPokemonWorker()//PokemonWorker()
     var presenter: HomePresentationLogic?
+    var worker: PokemonStore = PokemonWorker()
     
     // MARK: Data store properties
     private(set) var pokemons: [Pokemon] = []
@@ -38,9 +38,9 @@ private extension HomeInteractor {
         switch result {
         case .success(let pokemons):
             self.pokemons = pokemons
-            presenter?.presentFetchedPokemons(.success(pokemons))
+            presenter?.presentFetchedPokemons(Home.FetchPokemons.Response(result: .success(pokemons)))
         case .failure(let error):
-            presenter?.presentFetchedPokemons(.failure(error))
+            presenter?.presentFetchedPokemons(Home.FetchPokemons.Response(result: .failure(error)))
         }
     }
 }

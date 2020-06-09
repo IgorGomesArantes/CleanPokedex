@@ -8,9 +8,7 @@
 
 import Foundation
 
-protocol DetailsRoutingLogic {
-    
-}
+protocol DetailsRoutingLogic { }
 
 protocol DetailsDataPassing {
     var dataStore: DetailsDataStore? { get }
@@ -25,6 +23,4 @@ final class DetailsRouter: DetailsDataPassing {
 }
 
 // MARK: Routing logic methods
-extension DetailsRouter: DetailsRoutingLogic {
-    
-}
+extension DetailsRouter: DetailsRoutingLogic { }

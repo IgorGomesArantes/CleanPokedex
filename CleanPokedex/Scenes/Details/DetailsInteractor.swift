@@ -27,14 +27,6 @@ final class DetailsInteractor: DetailsDataStore {
     var selectedTab: IndexPath = IndexPath(row: 0, section: 1)
     var presenter: DetailsPresentationLogic?
     let tabs: [String] = ["About", "Stats", "Evolution"]
-    
-//    var selectedTab: IndexPath = IndexPath(row: 1, section: 0) {
-//        didSet {
-//            showTabInformations()
-//        }
-//    }
-    
-
 }
 
 // MARK: Business logic methods

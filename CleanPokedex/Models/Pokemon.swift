@@ -8,7 +8,6 @@
 
 import Foundation
 
-// TODO: Separe into maps
 struct Pokemon: Decodable {
     let speed: Int
     let total: Int

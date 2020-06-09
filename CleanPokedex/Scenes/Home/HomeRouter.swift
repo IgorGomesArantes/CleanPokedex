@@ -9,7 +9,7 @@
 import Foundation
 
 protocol HomeRoutingLogic {
-    func routeToDetails(withIndex index: Int)
+    func routeToDetails(selectedIndex index: Int)
 }
 
 protocol HomeDataPassing {
@@ -26,7 +26,7 @@ final class HomeRouter: HomeDataPassing {
 
 // MARK: Routing logic methods
 extension HomeRouter: HomeRoutingLogic {
-    func routeToDetails(withIndex index: Int) {
+    func routeToDetails(selectedIndex index: Int) {
         let detailsViewController = DetailsViewController()
         var destination = detailsViewController.router!.dataStore!
         

@@ -11,12 +11,6 @@ import Foundation
 protocol DetailsPresentationLogic {
     func presentDetails(_ response: Details.ShowDetails.Response)
     func presentSelectTab(_ response: Details.SelectTab.Response)
-    
-    //    func presentTabs(_ response: Details.ShowTabs.Response)
-    //    func presentDetails(_ response: Details.ShowDetails.Response)
-    //    func presentDeselecTab(_ response: Details.SelectTab.Response)
-    //    func presentSelectedTab(_ response: Details.SelectTab.Response)
-    //    func presentTabInformation(_ response: Details.ShowTabInformations.Response)
 }
 
 final class DetailsPresenter {
@@ -57,7 +51,7 @@ private extension DetailsPresenter {
                                                               code: pokemon.code,
                                                               imageURL: pokemon.imageURL,
                                                               types: pokemon.types,
-                                                              mainType: pokemon.types.first!)
+                                                              backgroundColor: pokemon.types.first!.backgroundColor)
     }
     
     func getAboutTabSections(_ about: Details.SelectTab.Response.About) -> [Details.SelectTab.ViewModel.SectionType] {

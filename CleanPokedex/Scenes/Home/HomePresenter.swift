@@ -20,11 +20,11 @@ final class HomePresenter {
 // MARK: Presentation logic methods
 extension HomePresenter: HomePresentationLogic {
     func presentFetchedPokemons(_ response: Home.FetchPokemons.Response) {
-        switch response {
+        switch response.result {
         case .success(let pokemons):
-            viewController?.displayFetchedPokemons(.success(getDisplayedPokemons(pokemons)))
+            viewController?.displayFetchedPokemons(Home.FetchPokemons.ViewModel(result: .success(getDisplayedPokemons(pokemons))))
         case .failure(let error):
-            viewController?.displayFetchedPokemons(.failure(getFetchPokemonsErrorViewModel(error)))
+            viewController?.displayFetchedPokemons(Home.FetchPokemons.ViewModel(result: .failure(getFetchPokemonsErrorViewModel(error))))
         }
     }
 }
@@ -36,7 +36,7 @@ private extension HomePresenter {
                                                              code: pokemon.code,
                                                              imageURL: pokemon.imageURL,
                                                              types: pokemon.types,
-                                                             mainType: pokemon.types.first!)
+                                                             backgroundColor: pokemon.types.first!.backgroundColor)
     }
     
     func getDisplayedPokemons(_ pokemons: [Pokemon]) -> [Home.FetchPokemons.ViewModel.DisplayedPokemon] {

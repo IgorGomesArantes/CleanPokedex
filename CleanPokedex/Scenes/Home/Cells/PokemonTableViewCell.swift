@@ -49,8 +49,8 @@ extension PokemonTableViewCell {
         setupTags(pokemon.types)
         codeLabel.text = pokemon.code
         nameLabel.text = pokemon.name
+        containerView.backgroundColor = pokemon.backgroundColor
         pokemonImageView.kf.setImage(with: URL(string: pokemon.imageURL)!)
-        containerView.backgroundColor = UIColor.getPokemonBackgroundColor(withType: pokemon.mainType)
     }
 }
 
@@ -175,12 +175,7 @@ private extension PokemonTableViewCell {
     }
     
     func setupTags(_ types: [PokemonType]) {
-        types.forEach { setupTag(forType: $0) }
-    }
-    
-    func setupTag(forType type: PokemonType) {
-        let imageView = UIImageView(image: UIImage.getPokemonTag(withType: type))
-        tagsStackView.addArrangedSubview(imageView)
+        types.forEach { tagsStackView.addArrangedSubview(UIImageView(image: $0.tagImage)) }
     }
     
     func removeTags() {

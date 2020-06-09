@@ -23,7 +23,7 @@ enum Details {
                 let code: String
                 let imageURL: String
                 let types: [PokemonType]
-                let mainType: PokemonType
+                let backgroundColor: UIColor
             }
             
             let title: String

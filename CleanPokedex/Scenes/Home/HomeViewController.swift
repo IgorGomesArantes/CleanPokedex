@@ -83,7 +83,7 @@ private extension HomeViewController {
 // MARK: Display logic methods
 extension HomeViewController: HomeDisplayLogic {
     func displayFetchedPokemons(_ viewModel: Home.FetchPokemons.ViewModel) {
-        switch viewModel {
+        switch viewModel.result {
         case .success(let displayedPokemons):
             self.displayedPokemons = displayedPokemons
         case .failure(let displayedError):
@@ -108,7 +108,7 @@ extension HomeViewController: UITableViewDataSource {
 // MARK: Table view delegate methods
 extension HomeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        router?.routeToDetails(withIndex: indexPath.row)
+        router?.routeToDetails(selectedIndex: indexPath.row)
     }
 }
 
