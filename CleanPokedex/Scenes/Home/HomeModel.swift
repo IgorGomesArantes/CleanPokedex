@@ -6,7 +6,7 @@
 //  Copyright © 2020 Igor Gomes Arantes. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 enum Home {
     enum FetchPokemons {
@@ -26,8 +26,8 @@ enum Home {
                 let name: String
                 let code: String
                 let imageURL: String
-                let types: [PokemonType]
-                let backgroundColor: UIColor
+                let typeImageNames: [String]
+                let backgroundColorName: String
             }
             
             struct DisplayedError {

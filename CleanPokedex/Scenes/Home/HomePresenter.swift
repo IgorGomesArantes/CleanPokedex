@@ -35,8 +35,8 @@ private extension HomePresenter {
         return Home.FetchPokemons.ViewModel.DisplayedPokemon(name: pokemon.name,
                                                              code: pokemon.code,
                                                              imageURL: pokemon.imageURL,
-                                                             types: pokemon.types,
-                                                             backgroundColor: pokemon.types.first!.backgroundColor)
+                                                             typeImageNames: pokemon.types.map { $0.tagImageName },
+                                                             backgroundColorName: pokemon.types.first!.backgroundColorName)
     }
     
     func getDisplayedPokemons(_ pokemons: [Pokemon]) -> [Home.FetchPokemons.ViewModel.DisplayedPokemon] {

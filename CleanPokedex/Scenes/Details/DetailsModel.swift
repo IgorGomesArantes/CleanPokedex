@@ -6,7 +6,7 @@
 //  Copyright © 2020 Igor Gomes Arantes. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 enum Details {
     enum ShowDetails {
@@ -22,8 +22,8 @@ enum Details {
                 let name: String
                 let code: String
                 let imageURL: String
-                let types: [PokemonType]
-                let backgroundColor: UIColor
+                let typeImageNames: [String]
+                let backgroundColorName: String
             }
             
             let title: String
@@ -34,7 +34,7 @@ enum Details {
     
     enum SelectTab {
         struct Request {
-            let selectedTab: IndexPath
+            let selectedTab: Int
         }
         
         struct Response {
@@ -66,8 +66,8 @@ enum Details {
             }
             
             let tabType: TabType
-            let selectedTab: IndexPath
-            let deselectedTab: IndexPath
+            let selectedTab: Int
+            let deselectedTab: Int
         }
         
         struct ViewModel {
@@ -79,13 +79,13 @@ enum Details {
                 struct Data {
                     let key: String
                     let value: String
-                    let barColor: UIColor
+                    let colorName: String
                     let valuePercent: Float
                 }
                 
                 let data: [Data]
                 let headerTitle: String
-                let headerTitleColor: UIColor
+                let headerTitleColorName: String
             }
             
             struct Evolution {
@@ -103,7 +103,7 @@ enum Details {
                 
                 let data: [Data]
                 let headerTitle: String
-                let headerTitleColor: UIColor
+                let headerTitleColorName: String
             }
             
             struct About {
@@ -114,7 +114,7 @@ enum Details {
                 
                 let data: [Data]
                 let headerTitle: String
-                let headerTitleColor: UIColor
+                let headerTitleColorName: String
             }
             
             enum SectionType {
@@ -124,8 +124,8 @@ enum Details {
                 case evolution(Evolution)
             }
             
-            let selectedTab: IndexPath
-            let deselectedTab: IndexPath
+            let selectedTab: Int
+            let deselectedTab: Int
             let displayedSections: [SectionType]
         }
     }

@@ -24,7 +24,7 @@ final class DetailsInteractor: DetailsDataStore {
     var evolutionMap: [String: Pokemon] = [:]
     
     // MARK: Properties
-    var selectedTab: IndexPath = IndexPath(row: 0, section: 1)
+    var selectedTab: Int = -1
     var presenter: DetailsPresentationLogic?
     let tabs: [String] = ["About", "Stats", "Evolution"]
 }
@@ -36,11 +36,11 @@ extension DetailsInteractor: DetailsBusinessLogic {
     }
     
     func selectTab(_ request: Details.SelectTab.Request) {
-        guard !(request.selectedTab.row == selectedTab.row && request.selectedTab.section == selectedTab.section) else { return }
+        guard request.selectedTab != selectedTab else { return }
         
         let deselectedTab = selectedTab
         self.selectedTab = request.selectedTab
-        presenter?.presentSelectTab(Details.SelectTab.Response(tabType: getTabType(request.selectedTab.row),
+        presenter?.presentSelectTab(Details.SelectTab.Response(tabType: getTabType(request.selectedTab),
                                                                selectedTab: request.selectedTab,
                                                                deselectedTab: deselectedTab))
     }

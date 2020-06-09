@@ -46,11 +46,11 @@ extension PokemonTableViewCell {
 // MARK: Public methods
 extension PokemonTableViewCell {
     func setup(pokemon: Home.FetchPokemons.ViewModel.DisplayedPokemon) {
-        setupTags(pokemon.types)
         codeLabel.text = pokemon.code
         nameLabel.text = pokemon.name
-        containerView.backgroundColor = pokemon.backgroundColor
+        setupTags(pokemon.typeImageNames)
         pokemonImageView.kf.setImage(with: URL(string: pokemon.imageURL)!)
+        containerView.backgroundColor = UIColor(named: pokemon.backgroundColorName)
     }
 }
 
@@ -174,8 +174,8 @@ private extension PokemonTableViewCell {
         containerView.layer.cornerRadius = 10
     }
     
-    func setupTags(_ types: [PokemonType]) {
-        types.forEach { tagsStackView.addArrangedSubview(UIImageView(image: $0.tagImage)) }
+    func setupTags(_ types: [String]) {
+        types.forEach { tagsStackView.addArrangedSubview(UIImageView(image: UIImage(named: $0))) }
     }
     
     func removeTags() {

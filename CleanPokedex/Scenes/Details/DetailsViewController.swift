@@ -29,7 +29,7 @@ final class DetailsViewController: UIViewController {
             customView.tabsCollectionView.performBatchUpdates({
                 self.customView.tabsCollectionView.reloadData()
             }) { _ in
-                self.interactor?.selectTab(Details.SelectTab.Request(selectedTab: IndexPath(row: 0, section: 0)))
+                self.interactor?.selectTab(Details.SelectTab.Request(selectedTab: 0))
             }
         }
     }
@@ -119,15 +119,15 @@ extension DetailsViewController: DetailsDisplayLogic {
 // MARK: Setup methods
 private extension DetailsViewController {
     func setupDetailsView(_ displayedPokemon: Details.ShowDetails.ViewModel.DisplayedPokemon) {
-        setupTags(displayedPokemon.types)
+        setupTags(displayedPokemon.typeImageNames)
         customView.codeLabel.text = displayedPokemon.code
         customView.nameLabel.text = displayedPokemon.name
-        customView.backgroundColor = displayedPokemon.backgroundColor
+        customView.backgroundColor = UIColor(named: displayedPokemon.backgroundColorName)
         customView.pokemonImageView.kf.setImage(with: URL(string: displayedPokemon.imageURL)!)
     }
     
-    func setupTags(_ types: [PokemonType]) {
-        types.forEach { customView.tagsStackView.addArrangedSubview(UIImageView(image: $0.tagImage)) }
+    func setupTags(_ typeImageNames: [String]) {
+        typeImageNames.forEach { customView.tagsStackView.addArrangedSubview(UIImageView(image: UIImage(named: $0))) }
     }
 }
 
@@ -192,11 +192,11 @@ extension DetailsViewController: UITableViewDelegate {
         
         switch displayedSections[section] {
         case .evolution(let data):
-            header.textLabel?.textColor = data.headerTitleColor
+            header.textLabel?.textColor = UIColor(named: data.headerTitleColorName)
         case .about(let data):
-            header.textLabel?.textColor = data.headerTitleColor
+            header.textLabel?.textColor = UIColor(named: data.headerTitleColorName)
         case .stats(let data):
-            header.textLabel?.textColor = data.headerTitleColor
+            header.textLabel?.textColor = UIColor(named: data.headerTitleColorName)
         case .overview:
             break
         }
@@ -229,19 +229,19 @@ extension DetailsViewController: UICollectionViewDelegateFlowLayout {
 // MARK: Collection view delegate methods
 extension DetailsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        interactor?.selectTab(Details.SelectTab.Request(selectedTab: indexPath))
+        interactor?.selectTab(Details.SelectTab.Request(selectedTab: indexPath.row))
     }
 }
 
 // MARK: Private methods
 private extension DetailsViewController {
-    func setTabCellAsSelected(_ indexPath: IndexPath) {
-        guard let selectedCell = customView.tabsCollectionView.cellForItem(at: indexPath) as? TabCollectionViewCell else { return }
+    func setTabCellAsSelected(_ row: Int) {
+        guard let selectedCell = customView.tabsCollectionView.cellForItem(at: IndexPath(row: row, section: 0)) as? TabCollectionViewCell else { return }
         selectedCell.setAsSelected()
     }
     
-    func setTabCellAsDeselected(_ indexPath: IndexPath) {
-        guard let deselectedCell = customView.tabsCollectionView.cellForItem(at: indexPath) as? TabCollectionViewCell else { return }
+    func setTabCellAsDeselected(_ row: Int) {
+        guard let deselectedCell = customView.tabsCollectionView.cellForItem(at: IndexPath(row: row, section: 0)) as? TabCollectionViewCell else { return }
         deselectedCell.setAsDeselected()
     }
 }

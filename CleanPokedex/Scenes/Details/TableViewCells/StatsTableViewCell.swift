@@ -39,7 +39,7 @@ extension StatsTableViewCell {
         titleLabel.text = data.key
         valueLabel.text = data.value
         valueProgressView.progress = data.valuePercent
-        valueProgressView.progressTintColor = data.barColor
+        valueProgressView.progressTintColor = UIColor(named: data.colorName)
     }
 }
 

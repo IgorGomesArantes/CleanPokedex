@@ -50,8 +50,8 @@ private extension DetailsPresenter {
         return Details.ShowDetails.ViewModel.DisplayedPokemon(name: pokemon.name,
                                                               code: pokemon.code,
                                                               imageURL: pokemon.imageURL,
-                                                              types: pokemon.types,
-                                                              backgroundColor: pokemon.types.first!.backgroundColor)
+                                                              typeImageNames: pokemon.types.map { $0.tagImageName },
+                                                              backgroundColorName: pokemon.types.first!.backgroundColorName)
     }
     
     func getAboutTabSections(_ about: Details.SelectTab.Response.About) -> [Details.SelectTab.ViewModel.SectionType] {
@@ -65,7 +65,7 @@ private extension DetailsPresenter {
         
         let pokedexDataSection = Details.SelectTab.ViewModel.SectionType.about(Details.SelectTab.ViewModel.About(data: [height, weight, abilities],
                                                                                                                  headerTitle: "Pokédex Data",
-                                                                                                                 headerTitleColor: about.mainType.color))
+                                                                                                                 headerTitleColorName: about.mainType.colorName))
         
         let eggCycles = Details.SelectTab.ViewModel.About.Data(title: "Egg Cycles", text: about.pokemon.cycles)
         let eggGroups = Details.SelectTab.ViewModel.About.Data(title: "Egg Groups", text: about.pokemon.eggGroups)
@@ -73,7 +73,7 @@ private extension DetailsPresenter {
         
         let breedingSection = Details.SelectTab.ViewModel.SectionType.about(Details.SelectTab.ViewModel.About(data: [gender, eggGroups, eggCycles],
                                                                                                               headerTitle: "Breeding",
-                                                                                                              headerTitleColor: about.mainType.color))
+                                                                                                              headerTitleColorName: about.mainType.colorName))
         
         return [overviewSection, pokedexDataSection, breedingSection]
     }
@@ -81,44 +81,44 @@ private extension DetailsPresenter {
     func getStatsTabSections(_ stats: Details.SelectTab.Response.Stats) -> [Details.SelectTab.ViewModel.SectionType] {
         let healthPoints = Details.SelectTab.ViewModel.Stats.Data(key: "HP",
                                                                   value: String(stats.pokemon.healthPoints),
-                                                                  barColor: stats.mainType.color,
+                                                                  colorName: stats.mainType.colorName,
                                                                   valuePercent: Float(stats.pokemon.healthPoints) / 100.0)
         
         let attack = Details.SelectTab.ViewModel.Stats.Data(key: "Attack",
                                                             value: String(stats.pokemon.attack),
-                                                            barColor: stats.mainType.color,
+                                                            colorName: stats.mainType.colorName,
                                                             valuePercent: Float(stats.pokemon.attack) / 100.0)
         
         let defense = Details.SelectTab.ViewModel.Stats.Data(key: "Defense",
                                                              value: String(stats.pokemon.defense),
-                                                             barColor: stats.mainType.color,
+                                                             colorName: stats.mainType.colorName,
                                                              valuePercent: Float(stats.pokemon.defense) / 100.0)
         
         let specialAttack = Details.SelectTab.ViewModel.Stats.Data(key: "Sp. Atk",
                                                                    value: String(stats.pokemon.specialAttack),
-                                                                   barColor: stats.mainType.color,
+                                                                   colorName: stats.mainType.colorName,
                                                                    valuePercent: Float(stats.pokemon.specialAttack) / 100.0)
         
         let specialDefense = Details.SelectTab.ViewModel.Stats.Data(key: "Sp. Def",
                                                                     value: String(stats.pokemon.specialDefense),
-                                                                    barColor: stats.mainType.color,
+                                                                    colorName: stats.mainType.colorName,
                                                                     valuePercent: Float(stats.pokemon.specialDefense) / 100.0)
         
         let speed = Details.SelectTab.ViewModel.Stats.Data(key: "Speed",
                                                            value: String(stats.pokemon.speed),
-                                                           barColor: stats.mainType.color,
+                                                           colorName: stats.mainType.colorName,
                                                            valuePercent: Float(stats.pokemon.speed) / 100.0)
         
         let totalSum = stats.pokemon.healthPoints + stats.pokemon.attack + stats.pokemon.defense + stats.pokemon.specialAttack + stats.pokemon.specialDefense + stats.pokemon.speed
         let total = Details.SelectTab.ViewModel.Stats.Data(key: "Total",
                                                            value: String(totalSum),
-                                                           barColor: stats.mainType.color,
+                                                           colorName: stats.mainType.colorName,
                                                            valuePercent: Float(totalSum) / 600.0)
         
         let statsSection = Details.SelectTab.ViewModel.SectionType.stats(Details.SelectTab.ViewModel.Stats(
             data: [healthPoints, attack, defense, specialAttack, specialDefense, speed, total],
             headerTitle: "Base Stats",
-            headerTitleColor: stats.mainType.color))
+            headerTitleColorName: stats.mainType.colorName))
         
         return [statsSection]
     }
@@ -131,7 +131,7 @@ private extension DetailsPresenter {
         
         let section: Details.SelectTab.ViewModel.SectionType = .evolution(Details.SelectTab.ViewModel.Evolution(data: evolutionCells,
                                                                                                                 headerTitle: "Evolution Chart",
-                                                                                                                headerTitleColor: evolution.mainType.color))
+                                                                                                                headerTitleColorName: evolution.mainType.colorName))
         
         return [section]
     }

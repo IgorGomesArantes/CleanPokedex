@@ -6,7 +6,7 @@
 //  Copyright © 2020 Igor Gomes Arantes. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 enum PokemonType: String, Decodable {
     case bug = "Bug"
@@ -31,18 +31,15 @@ enum PokemonType: String, Decodable {
 
 // MARK: Resource methods
 extension PokemonType {
-    var color: UIColor {
-        let colorName: String = rawValue.lowercased()
-        return UIColor(named: colorName)!
+    var colorName: String {
+        return rawValue.lowercased()
     }
     
-    var backgroundColor: UIColor {
-        let colorName: String = "background-\(rawValue.lowercased())"
-        return UIColor(named: colorName)!
+    var backgroundColorName: String {
+        return "background-\(rawValue.lowercased())"
     }
     
-    var tagImage: UIImage {
-        let imageName: String = "\(rawValue.lowercased())-tag"
-        return UIImage(named: imageName)!
+    var tagImageName: String {
+        return "\(rawValue.lowercased())-tag"
     }
 }
