@@ -13,12 +13,12 @@ protocol HomeDataStore {
 }
 
 protocol HomeBusinessLogic {
-    func fetchPokemons()
+    func fetchPokemons(_ request: Home.FetchPokemons.Request)
 }
 
 final class HomeInteractor: HomeDataStore {
     // MARK: Properties
-    var worker: HomeStore = MockedHomeWorker()//HomeWorker()
+    var worker: PokemonStore = MockedPokemonWorker()//PokemonWorker()
     var presenter: HomePresentationLogic?
     
     // MARK: Data store properties
@@ -27,7 +27,7 @@ final class HomeInteractor: HomeDataStore {
 
 // MARK: Business logic methods
 extension HomeInteractor: HomeBusinessLogic {
-    func fetchPokemons() {
+    func fetchPokemons(_ request: Home.FetchPokemons.Request) {
         worker.requestPokemons(completion: requestPokemonsCompletion(result:))
     }
 }
@@ -38,9 +38,9 @@ private extension HomeInteractor {
         switch result {
         case .success(let pokemons):
             self.pokemons = pokemons
-            presenter?.presentFetchedPokemons(response: Home.FetchPokemons.Response(pokemons: pokemons))
+            presenter?.presentFetchedPokemons(.success(pokemons))
         case .failure(let error):
-            presenter?.presentFetchPokemonsError(withMessage: error.localizedDescription)
+            presenter?.presentFetchedPokemons(.failure(error))
         }
     }
 }

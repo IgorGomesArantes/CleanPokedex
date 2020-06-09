@@ -83,7 +83,7 @@ private extension DetailsInteractor {
         for index in 0..<pokemon.evolutions.count - 1 {
             let initial = evolutionMap[pokemon.evolutions[index]]!
             let evolved = evolutionMap[pokemon.evolutions[index + 1]]!
-            evolutions.append((initial, evolved, initial.reason))
+            evolutions.append((initial, evolved, evolved.reason))
         }
         
         return evolutions

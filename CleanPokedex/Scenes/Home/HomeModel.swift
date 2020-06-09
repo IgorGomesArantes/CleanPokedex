@@ -10,11 +10,15 @@ import Foundation
 
 enum Home {
     enum FetchPokemons {
-        struct Response {
-            let pokemons: [Pokemon]
+        struct Request {
+        }
+        
+        enum Response {
+            case success([Pokemon])
+            case failure(Error)
         }
 
-        struct ViewModel {
+        enum ViewModel {
             struct DisplayedPokemon {
                 let name: String
                 let code: String
@@ -23,11 +27,14 @@ enum Home {
                 let mainType: PokemonType
             }
             
-            let displayedPokemons: [DisplayedPokemon]
-        }
-        
-        struct Error {
-            let message: String
+            struct DisplayedError {
+                let title: String
+                let message: String
+                let buttonTitle: String
+            }
+            
+            case success([DisplayedPokemon])
+            case failure(DisplayedError)
         }
     }
 }

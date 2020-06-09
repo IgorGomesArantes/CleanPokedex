@@ -10,7 +10,6 @@ import UIKit
 
 protocol HomeDisplayLogic: class {
     func displayFetchedPokemons(_ viewModel: Home.FetchPokemons.ViewModel)
-    func displayFetchPokemonsError(_ error: Home.FetchPokemons.Error)
 }
 
 final class HomeViewController: UIViewController {
@@ -20,13 +19,13 @@ final class HomeViewController: UIViewController {
     private var displayedPokemons: [Home.FetchPokemons.ViewModel.DisplayedPokemon] = [] {
         didSet {
             DispatchQueue.main.async { [weak self] in
-                self?.homeView.pokemonsTableView.reloadData()
+                self?.customView.pokemonsTableView.reloadData()
             }
         }
     }
     
     // MARK: View properties
-    var homeView: HomeView {
+    var customView: HomeView {
         return view as! HomeView
     }
 }
@@ -43,13 +42,13 @@ extension HomeViewController {
 extension HomeViewController {
     override func loadView() {
         view = HomeView(frame: .zero)
-        tableViewConfiguration()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableViewConfiguration()
         navigationControllerConfiguration()
-        interactor?.fetchPokemons()
+        interactor?.fetchPokemons(Home.FetchPokemons.Request())
     }
 }
 
@@ -62,10 +61,10 @@ private extension HomeViewController {
         let interactor = HomeInteractor()
         
         router.dataStore = interactor
-        viewController.router = router
-        interactor.presenter = presenter
-        viewController.interactor = interactor
         router.viewController = viewController
+        viewController.router = router
+        viewController.interactor = interactor
+        interactor.presenter = presenter
         presenter.viewController = viewController
     }
     
@@ -74,35 +73,22 @@ private extension HomeViewController {
     }
     
     func tableViewConfiguration() {
-        homeView.pokemonsTableView.delegate = self
-        homeView.pokemonsTableView.dataSource = self
+        customView.pokemonsTableView.delegate = self
+        customView.pokemonsTableView.dataSource = self
         
-        homeView.pokemonsTableView.register(PokemonTableViewCell.self, forCellReuseIdentifier: String(describing: PokemonTableViewCell.self))
-    }
-}
-
-// MARK: Private methods
-private extension HomeViewController {
-    func showFetchPokemonsAlertError(message: String) {
-        let alert = UIAlertController(title: "Houve um erro ao buscar os Pokemons.", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Tentar novamente", style: .default, handler: { _ in
-            self.interactor?.fetchPokemons()
-        }))
-        
-        DispatchQueue.main.async { [weak self] in
-            self?.present(alert, animated: true)
-        }
+        customView.pokemonsTableView.register(PokemonTableViewCell.self, forCellReuseIdentifier: String(describing: PokemonTableViewCell.self))
     }
 }
 
 // MARK: Display logic methods
 extension HomeViewController: HomeDisplayLogic {
     func displayFetchedPokemons(_ viewModel: Home.FetchPokemons.ViewModel) {
-        self.displayedPokemons = viewModel.displayedPokemons
-    }
-    
-    func displayFetchPokemonsError(_ error: Home.FetchPokemons.Error) {
-        showFetchPokemonsAlertError(message: error.message)
+        switch viewModel {
+        case .success(let displayedPokemons):
+            self.displayedPokemons = displayedPokemons
+        case .failure(let displayedError):
+            showAlertError(displayedError)
+        }
     }
 }
 
@@ -123,5 +109,19 @@ extension HomeViewController: UITableViewDataSource {
 extension HomeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         router?.routeToDetails(withIndex: indexPath.row)
+    }
+}
+
+// MARK: Private methods
+private extension HomeViewController {
+    func showAlertError(_ displayedError: Home.FetchPokemons.ViewModel.DisplayedError) {
+        let alert = UIAlertController(title: displayedError.title, message: displayedError.message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: displayedError.buttonTitle, style: .default, handler: { _ in
+            self.interactor?.fetchPokemons(Home.FetchPokemons.Request())
+        }))
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.present(alert, animated: true)
+        }
     }
 }
