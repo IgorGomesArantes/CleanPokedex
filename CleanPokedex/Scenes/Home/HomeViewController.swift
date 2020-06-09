@@ -83,12 +83,7 @@ private extension HomeViewController {
 // MARK: Display logic methods
 extension HomeViewController: HomeDisplayLogic {
     func displayFetchedPokemons(_ viewModel: Home.FetchPokemons.ViewModel) {
-        switch viewModel.result {
-        case .success(let displayedPokemons):
-            self.displayedPokemons = displayedPokemons
-        case .failure(let displayedError):
-            showAlertError(displayedError)
-        }
+        self.displayedPokemons = viewModel.displayedPokemons
     }
 }
 
@@ -109,19 +104,5 @@ extension HomeViewController: UITableViewDataSource {
 extension HomeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         router?.routeToDetails(selectedIndex: indexPath.row)
-    }
-}
-
-// MARK: Private methods
-private extension HomeViewController {
-    func showAlertError(_ displayedError: Home.FetchPokemons.ViewModel.DisplayedError) {
-        let alert = UIAlertController(title: displayedError.title, message: displayedError.message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: displayedError.buttonTitle, style: .default, handler: { _ in
-            self.interactor?.fetchPokemons(Home.FetchPokemons.Request())
-        }))
-        
-        DispatchQueue.main.async { [weak self] in
-            self?.present(alert, animated: true)
-        }
     }
 }

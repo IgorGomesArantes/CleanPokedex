@@ -13,12 +13,7 @@ enum Home {
         struct Request { }
         
         struct Response {
-            enum Result {
-                case success([Pokemon])
-                case failure(Error)
-            }
-            
-            let result: Result
+            let pokemons: [Pokemon]
         }
 
         struct ViewModel {
@@ -30,18 +25,7 @@ enum Home {
                 let backgroundColorName: String
             }
             
-            struct DisplayedError {
-                let title: String
-                let message: String
-                let buttonTitle: String
-            }
-            
-            enum Result {
-                case success([DisplayedPokemon])
-                case failure(DisplayedError)
-            }
-            
-            let result: Result
+            let displayedPokemons: [DisplayedPokemon]
         }
     }
 }

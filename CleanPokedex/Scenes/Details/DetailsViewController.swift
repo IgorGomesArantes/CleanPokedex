@@ -57,6 +57,7 @@ extension DetailsViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        navigationController?.navigationBar.tintColor = .black
         interactor?.showDetails(Details.ShowDetails.Request())
     }
 }

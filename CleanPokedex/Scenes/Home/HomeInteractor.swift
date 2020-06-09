@@ -19,7 +19,7 @@ protocol HomeBusinessLogic {
 final class HomeInteractor: HomeDataStore {
     // MARK: Properties
     var presenter: HomePresentationLogic?
-    var worker: PokemonStore = PokemonWorker()
+    var pokemonWorker: PokemonWorker = PokemonWorker(pokemonStore: PokemonAPI())
     
     // MARK: Data store properties
     private(set) var pokemons: [Pokemon] = []
@@ -28,19 +28,14 @@ final class HomeInteractor: HomeDataStore {
 // MARK: Business logic methods
 extension HomeInteractor: HomeBusinessLogic {
     func fetchPokemons(_ request: Home.FetchPokemons.Request) {
-        worker.requestPokemons(completion: requestPokemonsCompletion(result:))
+        pokemonWorker.getPokemons(completion: requestPokemonsCompletion(pokemons:))
     }
 }
 
 // MARK: Private methods
 private extension HomeInteractor {
-    func requestPokemonsCompletion(result: Result<[Pokemon], Error>) {
-        switch result {
-        case .success(let pokemons):
-            self.pokemons = pokemons
-            presenter?.presentFetchedPokemons(Home.FetchPokemons.Response(result: .success(pokemons)))
-        case .failure(let error):
-            presenter?.presentFetchedPokemons(Home.FetchPokemons.Response(result: .failure(error)))
-        }
+    func requestPokemonsCompletion(pokemons: [Pokemon]) {
+        self.pokemons = pokemons
+        presenter?.presentFetchedPokemons(Home.FetchPokemons.Response(pokemons: pokemons))
     }
 }
