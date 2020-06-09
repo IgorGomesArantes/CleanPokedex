@@ -13,9 +13,7 @@ protocol DetailsPresentationLogic {
     func presentDetails(_ response: Details.ShowDetails.Response)
     func presentDeselecTab(_ response: Details.SelectTab.Response)
     func presentSelectedTab(_ response: Details.SelectTab.Response)
-    func presentAboutTab(_ response: Details.ShowTabInformations.Response)
-    func presentStatsTab(_ response: Details.ShowTabInformations.Response)
-    func presentEvolutionTab(_ response: Details.ShowTabInformations.Response)
+    func presentTabInformation(_ response: Details.ShowTabInformations.Response)
 }
 
 final class DetailsPresenter {
@@ -41,16 +39,18 @@ extension DetailsPresenter: DetailsPresentationLogic {
         viewController?.displaySelectTab(Details.SelectTab.ViewModel(indexPath: response.indexPath))
     }
     
-    func presentAboutTab(_ response: Details.ShowTabInformations.Response) {
-        viewController?.displayTabInformations(Details.ShowTabInformations.ViewModel(displayedCells: getAboutTabInformation(pokemon: response.pokemon, mainType: response.mainType)))
-    }
-    
-    func presentStatsTab(_ response: Details.ShowTabInformations.Response) {
-        viewController?.displayTabInformations(Details.ShowTabInformations.ViewModel(displayedCells: getStatsInformation(pokemon: response.pokemon, mainType: response.mainType)))
-    }
-    
-    func presentEvolutionTab(_ response: Details.ShowTabInformations.Response) {
-        viewController?.displayTabInformations(Details.ShowTabInformations.ViewModel(displayedCells: getEvolutionTabInformation(pokemon: response.pokemon)))
+    func presentTabInformation(_ response: Details.ShowTabInformations.Response) {
+        switch response.tabType {
+        case .About(let data):
+            viewController?.displayTabInformations(
+                Details.ShowTabInformations.ViewModel(displayedCells: getAboutTabInformation(pokemon: data.0, mainType: data.1)))
+        case .Stats(let data):
+            viewController?.displayTabInformations(
+                Details.ShowTabInformations.ViewModel(displayedCells: getStatsInformation(pokemon: data.0, mainType: data.1)))
+        case .Evolution(let data):
+            viewController?.displayTabInformations(
+                Details.ShowTabInformations.ViewModel(displayedCells: getEvolutionTabInformation(evolutions: data.0, pokemonType: data.1)))
+        }
     }
 }
 
@@ -75,8 +75,8 @@ private extension DetailsPresenter {
         let reducedAbilities = pokemon.abilities.reduce("", { (result, value) in "\(result)\(value), " })
         let abilities = ("Abilities", String(reducedAbilities.prefix(reducedAbilities.count - 2)))
         
-        let pokedexHeaderData = Details.ShowTabInformations.ViewModel.HeaderData(title: "Pokédex Data", mainType: mainType)
-        let breedingHeaderData = Details.ShowTabInformations.ViewModel.HeaderData(title: "Breeding", mainType: mainType)
+        let pokedexHeaderData = Details.ShowTabInformations.ViewModel.CellType.HeaderData(title: "Pokédex Data", mainType: mainType)
+        let breedingHeaderData = Details.ShowTabInformations.ViewModel.CellType.HeaderData(title: "Breeding", mainType: mainType)
         
         let pokedexDataSection = Details.ShowTabInformations.ViewModel.CellType.keyValue((pokedexHeaderData, [height, weight, abilities]))
         let breedingSection = Details.ShowTabInformations.ViewModel.CellType.keyValue((breedingHeaderData, [gender, eggGroups, eggCycles]))
@@ -122,22 +122,24 @@ private extension DetailsPresenter {
                                                                 valuePercent: Float(totalSum) / 600.0,
                                                                 mainType: mainType)
 
-        let statsHeaderData = Details.ShowTabInformations.ViewModel.HeaderData(title: "Base Stats", mainType: mainType)
+        let statsHeaderData = Details.ShowTabInformations.ViewModel.CellType.HeaderData(title: "Base Stats", mainType: mainType)
         let statsSection = Details.ShowTabInformations.ViewModel.CellType.stats((statsHeaderData, [healthPoints, attack, defense, specialAttack, specialDefense, speed, total]))
         
         return [statsSection]
     }
     
-    func getEvolutionTabInformation(pokemon: Pokemon) -> [Details.ShowTabInformations.ViewModel.CellType] {
+    func getEvolutionTabInformation(evolutions: [(Pokemon, Pokemon, String)], pokemonType: PokemonType) -> [Details.ShowTabInformations.ViewModel.CellType] {
         
-        let first = Details.ShowTabInformations.ViewModel.Evolution(
-            reason: "Teste (123)",
-            initial: Details.ShowTabInformations.ViewModel.Evolution.Pokemon(code: pokemon.code, name: pokemon.name, imageURL: pokemon.imageURL),
-            evolved: Details.ShowTabInformations.ViewModel.Evolution.Pokemon(code: pokemon.code, name: pokemon.name, imageURL: pokemon.imageURL))
+        let evolutionsViewModel = evolutions.map {
+            Details.ShowTabInformations.ViewModel.Evolution(
+                reason: $0.2,
+                initial: Details.ShowTabInformations.ViewModel.Evolution.Pokemon(code: $0.0.code, name: $0.0.name, imageURL: $0.0.imageURL),
+                evolved: Details.ShowTabInformations.ViewModel.Evolution.Pokemon(code: $0.1.code, name: $0.1.name, imageURL: $0.1.imageURL))
+        }
         
-        let evolutionHeaderData = Details.ShowTabInformations.ViewModel.HeaderData(title: "Evolution Chart", mainType: PokemonType.dark)
-        let evolutionSection = Details.ShowTabInformations.ViewModel.CellType.evolution((evolutionHeaderData, [first]))
+        let evolutionHeaderData = Details.ShowTabInformations.ViewModel.CellType.HeaderData(title: "Evolution Chart", mainType: pokemonType)
+        let evolutionSection = Details.ShowTabInformations.ViewModel.CellType.evolution((evolutionHeaderData, evolutionsViewModel))
         
-        return [evolutionSection, evolutionSection, evolutionSection]
+        return [evolutionSection]
     }
 }

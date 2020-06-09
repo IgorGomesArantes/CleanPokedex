@@ -17,11 +17,13 @@ protocol DetailsBusinessLogic {
 
 protocol DetailsDataStore {
     var pokemon: Pokemon! { get set }
+    var evolutionMap: [String: Pokemon] { get set }
 }
 
 final class DetailsInteractor: DetailsDataStore {
     // MARK: Data store properties
     var pokemon: Pokemon!
+    var evolutionMap: [String: Pokemon] = [:]
     
     // MARK: Properties
     var presenter: DetailsPresentationLogic?
@@ -64,11 +66,26 @@ private extension DetailsInteractor {
     func showTabInformations() {
         switch tabs[selectedTab.row] {
         case .about:
-            presenter?.presentAboutTab(Details.ShowTabInformations.Response(pokemon: pokemon, mainType: pokemon.types.first!))
+            let tabType: Details.ShowTabInformations.Response.TabType = .About((pokemon, pokemon.types.first!))
+            presenter?.presentTabInformation(Details.ShowTabInformations.Response(tabType: tabType))
         case .stats:
-            presenter?.presentStatsTab(Details.ShowTabInformations.Response(pokemon: pokemon, mainType: pokemon.types.first!))
+            let tabType: Details.ShowTabInformations.Response.TabType = .Stats((pokemon, pokemon.types.first!))
+            presenter?.presentTabInformation(Details.ShowTabInformations.Response(tabType: tabType))
         case .evolution:
-            presenter?.presentEvolutionTab(Details.ShowTabInformations.Response(pokemon: pokemon, mainType: pokemon.types.first!))
+            let tabType: Details.ShowTabInformations.Response.TabType = .Evolution((getEvolutions(), pokemon.types.first!))
+            presenter?.presentTabInformation(Details.ShowTabInformations.Response(tabType: tabType))
         }
+    }
+    
+    func getEvolutions() -> [(Pokemon, Pokemon, String)] {
+        var evolutions: [(Pokemon, Pokemon, String)] = []
+
+        for index in 0..<pokemon.evolutions.count - 1 {
+            let initial = evolutionMap[pokemon.evolutions[index]]!
+            let evolved = evolutionMap[pokemon.evolutions[index + 1]]!
+            evolutions.append((initial, evolved, initial.reason))
+        }
+        
+        return evolutions
     }
 }

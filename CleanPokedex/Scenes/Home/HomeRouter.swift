@@ -38,6 +38,15 @@ final class HomeRouter: HomeDataPassing, HomeRoutingLogic {
     }
 
     private func passDataToDetails(source: HomeDataStore, destination: inout DetailsDataStore, index: Int) {
-        destination.pokemon = source.pokemons[index]
+        let pokemon = source.pokemons[index]
+        destination.pokemon = pokemon
+        destination.evolutionMap = getEvolutionMap(forPokemon: pokemon)
+    }
+    
+    private func getEvolutionMap(forPokemon pokemon: Pokemon) -> [String:Pokemon] {
+        var evolutionsMap: [String:Pokemon] = [:]
+        let evolutionPokemons = dataStore?.pokemons.filter { pokemon.evolutions.contains($0.code) } ?? []
+        evolutionPokemons.forEach { evolutionsMap[$0.code] = $0 }
+        return evolutionsMap
     }
 }
