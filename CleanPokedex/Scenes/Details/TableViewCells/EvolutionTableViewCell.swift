@@ -28,7 +28,7 @@ final class EvolutionTableViewCell: UITableViewCell {
         }
         
         // MARK: Public methods
-        func setup(pokemon: Details.ShowTabInformations.ViewModel.Evolution.Pokemon) {
+        func setup(pokemon: Details.SelectTab.ViewModel.Evolution.Pokemon) {
             codeLabel.text = pokemon.code
             nameLabel.text = pokemon.name
             pokemonImageView.kf.setImage(with: URL(string: pokemon.imageURL)!)
@@ -122,7 +122,7 @@ final class EvolutionTableViewCell: UITableViewCell {
 
 // MARK: Public methods
 extension EvolutionTableViewCell {
-    func setup(_ data: Details.ShowTabInformations.ViewModel.Evolution) {
+    func setup(_ data: Details.SelectTab.ViewModel.Evolution.Data) {
         reasonLabel.text = data.reason
         initialPokemonView.setup(pokemon: data.initial)
         evolvedPokemonView.setup(pokemon: data.evolved)

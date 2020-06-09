@@ -6,17 +6,14 @@
 //  Copyright © 2020 Igor Gomes Arantes. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 enum Details {
-    enum TabType: String {
-        case about = "About"
-        case stats = "Stats"
-        case evolution = "Evolution"
-    }
-    
     enum ShowDetails {
+        struct Request { }
+        
         struct Response {
+            let tabs: [String]
             let pokemon: Pokemon
         }
         
@@ -29,43 +26,66 @@ enum Details {
                 let mainType: PokemonType
             }
             
+            let title: String
+            let displayedTabs: [String]
             let displayedPokemon: DisplayedPokemon
         }
     }
     
-    enum ShowTabInformations {
+    enum SelectTab {
+        struct Request {
+            let selectedTab: IndexPath
+        }
+        
         struct Response {
-            enum TabType {
-                case About((Pokemon, PokemonType))
-                case Stats((Pokemon, PokemonType))
-                case Evolution(([(Pokemon, Pokemon, String)], PokemonType))
+            struct About {
+                let pokemon: Pokemon
+                let mainType: PokemonType
             }
-
+            
+            struct Stats {
+                let pokemon: Pokemon
+                let mainType: PokemonType
+            }
+            
+            struct Evolution {
+                struct Data {
+                    let reason: String
+                    let initial: Pokemon
+                    let evolved: Pokemon
+                }
+                
+                let data: [Data]
+                let mainType: PokemonType
+            }
+            
+            enum TabType {
+                case about(About)
+                case stats(Stats)
+                case evolution(Evolution)
+            }
+            
             let tabType: TabType
+            let selectedTab: IndexPath
+            let deselectedTab: IndexPath
         }
         
         struct ViewModel {
-            enum CellType {
-                struct HeaderData {
-                    let title: String
-                    let mainType: PokemonType
-                }
-                
-                case overview(Overview)
-                case stats((HeaderData, [Stats]))
-                case evolution((HeaderData, [Evolution]))
-                case keyValue((HeaderData, [(String, String)]))
-            }
-            
             struct Overview {
                 let text: String
             }
             
             struct Stats {
-                let key: String
-                let value: String
-                let valuePercent: Float
-                let mainType: PokemonType
+                struct Data {
+                    let key: String
+                    let value: String
+                    let barColor: UIColor
+                    let valuePercent: Float
+                }
+                
+                let data: [Data]
+                let headerTitle: String
+                let headerTitleColor: UIColor
             }
             
             struct Evolution {
@@ -75,32 +95,38 @@ enum Details {
                     let imageURL: String
                 }
                 
-                let reason: String
-                let initial: Pokemon
-                let evolved: Pokemon
+                struct Data {
+                    let reason: String
+                    let initial: Pokemon
+                    let evolved: Pokemon
+                }
+                
+                let data: [Data]
+                let headerTitle: String
+                let headerTitleColor: UIColor
             }
             
-            let displayedCells: [CellType]
-        }
-    }
-    
-    enum ShowTabs {
-        struct Response {
-            let tabs: [TabType]
-        }
-        
-        struct ViewModel {
-            let displayedTabs: [String]
-        }
-    }
-    
-    enum SelectTab {
-        struct Response {
-            let indexPath: IndexPath
-        }
-        
-        struct ViewModel {
-            let indexPath: IndexPath
+            struct About {
+                struct Data {
+                    let title: String
+                    let text: String
+                }
+                
+                let data: [Data]
+                let headerTitle: String
+                let headerTitleColor: UIColor
+            }
+            
+            enum SectionType {
+                case about(About)
+                case stats(Stats)
+                case overview(Overview)
+                case evolution(Evolution)
+            }
+            
+            let selectedTab: IndexPath
+            let deselectedTab: IndexPath
+            let displayedSections: [SectionType]
         }
     }
 }

@@ -10,14 +10,13 @@ import Foundation
 
 enum Home {
     enum FetchPokemons {
-        struct Request {
-        }
+        struct Request { }
         
         enum Response {
             case success([Pokemon])
             case failure(Error)
         }
-
+//TODO: Change to Struct
         enum ViewModel {
             struct DisplayedPokemon {
                 let name: String

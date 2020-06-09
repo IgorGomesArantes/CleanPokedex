@@ -9,10 +9,8 @@
 import Foundation
 
 protocol DetailsBusinessLogic {
-    func start()
-    func showTabs()
-    func showDetails()
-    func selectTab(withIndexPath indexPath: IndexPath)
+    func showDetails(_ request: Details.ShowDetails.Request)
+    func selectTab(_ request: Details.SelectTab.Request)
 }
 
 protocol DetailsDataStore {
@@ -26,64 +24,56 @@ final class DetailsInteractor: DetailsDataStore {
     var evolutionMap: [String: Pokemon] = [:]
     
     // MARK: Properties
+    var selectedTab: IndexPath = IndexPath(row: 0, section: 1)
     var presenter: DetailsPresentationLogic?
-    let tabs: [Details.TabType] = [.about, .stats, .evolution]
+    let tabs: [String] = ["About", "Stats", "Evolution"]
     
-    var selectedTab: IndexPath = IndexPath(row: 1, section: 0) {
-        didSet {
-            showTabInformations()
-        }
-    }
+//    var selectedTab: IndexPath = IndexPath(row: 1, section: 0) {
+//        didSet {
+//            showTabInformations()
+//        }
+//    }
+    
+
 }
 
 // MARK: Business logic methods
 extension DetailsInteractor: DetailsBusinessLogic {
-    func start() {
-        showTabs()
-        showDetails()
+    func showDetails(_ request: Details.ShowDetails.Request) {
+        presenter?.presentDetails(Details.ShowDetails.Response(tabs: tabs, pokemon: pokemon))
     }
     
-    func selectTab(withIndexPath indexPath: IndexPath) {
-        guard indexPath.row != selectedTab.row else { return }
+    func selectTab(_ request: Details.SelectTab.Request) {
+        guard !(request.selectedTab.row == selectedTab.row && request.selectedTab.section == selectedTab.section) else { return }
         
-        presenter?.presentSelectedTab(Details.SelectTab.Response(indexPath: indexPath))
-        presenter?.presentDeselecTab(Details.SelectTab.Response(indexPath: selectedTab))
-        
-        selectedTab = indexPath
-    }
-    
-    func showTabs() {
-        presenter?.presentTabs(Details.ShowTabs.Response(tabs: tabs))
-    }
-    
-    func showDetails() {
-        presenter?.presentDetails(Details.ShowDetails.Response(pokemon: pokemon))
+        let deselectedTab = selectedTab
+        self.selectedTab = request.selectedTab
+        presenter?.presentSelectTab(Details.SelectTab.Response(tabType: getTabType(request.selectedTab.row),
+                                                               selectedTab: request.selectedTab,
+                                                               deselectedTab: deselectedTab))
     }
 }
 
 // MARK: Private methods
 private extension DetailsInteractor {
-    func showTabInformations() {
-        switch tabs[selectedTab.row] {
-        case .about:
-            let tabType: Details.ShowTabInformations.Response.TabType = .About((pokemon, pokemon.types.first!))
-            presenter?.presentTabInformation(Details.ShowTabInformations.Response(tabType: tabType))
-        case .stats:
-            let tabType: Details.ShowTabInformations.Response.TabType = .Stats((pokemon, pokemon.types.first!))
-            presenter?.presentTabInformation(Details.ShowTabInformations.Response(tabType: tabType))
-        case .evolution:
-            let tabType: Details.ShowTabInformations.Response.TabType = .Evolution((getEvolutions(), pokemon.types.first!))
-            presenter?.presentTabInformation(Details.ShowTabInformations.Response(tabType: tabType))
+    func getTabType(_ selectedTab: Int) -> Details.SelectTab.Response.TabType {
+        switch selectedTab {
+        case 0:
+            return .about(Details.SelectTab.Response.About(pokemon: pokemon, mainType: pokemon.types.first!))
+        case 1:
+            return .stats(Details.SelectTab.Response.Stats(pokemon: pokemon, mainType: pokemon.types.first!))
+        default:
+            return .evolution(Details.SelectTab.Response.Evolution(data: getEvolutions(), mainType: pokemon.types.first!))
         }
     }
     
-    func getEvolutions() -> [(Pokemon, Pokemon, String)] {
-        var evolutions: [(Pokemon, Pokemon, String)] = []
+    func getEvolutions() -> [Details.SelectTab.Response.Evolution.Data] {
+        var evolutions: [Details.SelectTab.Response.Evolution.Data] = []
 
-        for index in 0..<pokemon.evolutions.count - 1 {
+        for index in 0 ..< pokemon.evolutions.count - 1 {
             let initial = evolutionMap[pokemon.evolutions[index]]!
             let evolved = evolutionMap[pokemon.evolutions[index + 1]]!
-            evolutions.append((initial, evolved, evolved.reason))
+            evolutions.append(Details.SelectTab.Response.Evolution.Data(reason: evolved.reason, initial: initial, evolved: evolved))
         }
         
         return evolutions

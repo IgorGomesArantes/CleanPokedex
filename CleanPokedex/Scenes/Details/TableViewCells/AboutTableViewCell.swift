@@ -8,10 +8,10 @@
 
 import UIKit
 
-final class KeyValueTableViewCell: UITableViewCell {
+final class AboutTableViewCell: UITableViewCell {
     // MARK: View properties
-    let keyLabel: UILabel = UILabel()
-    let valueLabel: UILabel = UILabel()
+    private let valueLabel: UILabel = UILabel()
+    private let titleLabel: UILabel = UILabel()
     
     // MARK: Initialization methods
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -25,15 +25,15 @@ final class KeyValueTableViewCell: UITableViewCell {
 }
 
 // MARK: Public methods
-extension KeyValueTableViewCell {
-    func setup(data: (String, String)) {
-        keyLabel.text = data.0
-        valueLabel.text = data.1
+extension AboutTableViewCell {
+    func setup(_ data: Details.SelectTab.ViewModel.About.Data) {
+        valueLabel.text = data.text
+        titleLabel.text = data.title
     }
 }
 
 // MARK: Configuration methods
-private extension KeyValueTableViewCell {
+private extension AboutTableViewCell {
     func initialConfiguration() {
         cellConfiguration()
         keyLabelConfiguration()
@@ -45,18 +45,18 @@ private extension KeyValueTableViewCell {
     }
     
     func keyLabelConfiguration() {
-        contentView.addSubview(keyLabel)
-        keyLabel.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(titleLabel)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            keyLabel.widthAnchor.constraint(equalToConstant: 85),
-            keyLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            keyLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
-            keyLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20)
+            titleLabel.widthAnchor.constraint(equalToConstant: 85),
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20)
         ])
         
-        keyLabel.font = UIFont.boldSystemFont(ofSize: 12)
-        keyLabel.textColor = UIColor(red: 23/255, green: 23/255, blue: 27/255, alpha: 1)
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 12)
+        titleLabel.textColor = UIColor(red: 23/255, green: 23/255, blue: 27/255, alpha: 1)
     }
     
     func valueLabelConfiguration() {
@@ -65,7 +65,7 @@ private extension KeyValueTableViewCell {
         
         NSLayoutConstraint.activate([
             valueLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-            valueLabel.leadingAnchor.constraint(equalTo: keyLabel.trailingAnchor, constant: 8),
+            valueLabel.leadingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 8),
             valueLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
             valueLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 20)
         ])

@@ -18,7 +18,7 @@ class DetailsView: UIView {
     let informationTableView: UITableView = UITableView()
     let backgroudCircleImageView: UIImageView = UIImageView()
     let backgroundDetailImageView: UIImageView = UIImageView()
-    let tabsCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: buildFlowLayout())
+    let tabsCollectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: buildTabsCollectionFlowLayout())
     
     // MARK: Initialization methods
     override init(frame: CGRect) {
@@ -183,7 +183,7 @@ private extension DetailsView {
 }
 
 // MARK: Private methods
-private func buildFlowLayout() -> UICollectionViewFlowLayout {
+private func buildTabsCollectionFlowLayout() -> UICollectionViewFlowLayout {
     let flowLayout = UICollectionViewFlowLayout()
     flowLayout.scrollDirection = .horizontal
     flowLayout.minimumLineSpacing = 0

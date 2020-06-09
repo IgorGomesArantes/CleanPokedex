@@ -10,7 +10,7 @@ import UIKit
 
 final class StatsTableViewCell: UITableViewCell {
     // MARK: View properties
-    let keyLabel: UILabel = UILabel()
+    let titleLabel: UILabel = UILabel()
     let valueLabel: UILabel = UILabel()
     let valueProgressView: UIProgressView = UIProgressView()
     
@@ -35,11 +35,11 @@ extension StatsTableViewCell {
 
 // MARK: Public methods
 extension StatsTableViewCell {
-    func setup(stats: Details.ShowTabInformations.ViewModel.Stats) {
-        keyLabel.text = stats.key
-        valueLabel.text = stats.value
-        valueProgressView.progress = stats.valuePercent
-        valueProgressView.progressTintColor = UIColor.getPokemonColor(withType: stats.mainType)
+    func setup(_ data: Details.SelectTab.ViewModel.Stats.Data) {
+        titleLabel.text = data.key
+        valueLabel.text = data.value
+        valueProgressView.progress = data.valuePercent
+        valueProgressView.progressTintColor = data.barColor
     }
 }
 
@@ -57,19 +57,19 @@ private extension StatsTableViewCell {
     }
     
     func keyLabelConfiguration() {
-        contentView.addSubview(keyLabel)
-        keyLabel.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(titleLabel)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            keyLabel.widthAnchor.constraint(equalToConstant: 50),
-            keyLabel.heightAnchor.constraint(equalToConstant: 25),
-            keyLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
-            keyLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            keyLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20)
+            titleLabel.widthAnchor.constraint(equalToConstant: 50),
+            titleLabel.heightAnchor.constraint(equalToConstant: 25),
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
+            titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20)
         ])
         
-        keyLabel.font = UIFont.systemFont(ofSize: 11)
-        keyLabel.textColor = UIColor(red: 23/255, green: 23/255, blue: 27/255, alpha: 1)
+        titleLabel.font = UIFont.systemFont(ofSize: 11)
+        titleLabel.textColor = UIColor(red: 23/255, green: 23/255, blue: 27/255, alpha: 1)
     }
     
     func valueLabelConfiguration() {
@@ -79,7 +79,7 @@ private extension StatsTableViewCell {
         NSLayoutConstraint.activate([
             valueLabel.widthAnchor.constraint(equalToConstant: 30),
             valueLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            valueLabel.leadingAnchor.constraint(equalTo: keyLabel.trailingAnchor, constant: 10)
+            valueLabel.leadingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 10)
         ])
         
         valueLabel.font = UIFont.systemFont(ofSize: 14)

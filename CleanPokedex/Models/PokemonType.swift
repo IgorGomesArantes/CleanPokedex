@@ -6,7 +6,7 @@
 //  Copyright © 2020 Igor Gomes Arantes. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 enum PokemonType: String, Decodable {
     case bug = "Bug"
@@ -27,4 +27,22 @@ enum PokemonType: String, Decodable {
     case psychic = "Psychic"
     case electric = "Electric"
     case fighting = "Fighting"
+}
+
+// MARK: Resource methods
+extension PokemonType {
+    var color: UIColor {
+        let colorName: String = rawValue.lowercased()
+        return UIColor(named: colorName)!
+    }
+    
+    var backgroundColor: UIColor {
+        let colorName: String = "background-\(rawValue.lowercased())"
+        return UIColor(named: colorName)!
+    }
+    
+    var tagImage: UIImage {
+        let imageName: String = "\(rawValue.lowercased())-tag"
+        return UIImage(named: imageName)!
+    }
 }
