@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol HomeDisplayLogic: class {
+protocol HomeDisplayLogic: AnyObject {
     func displayFetchedPokemons(_ viewModel: Home.FetchPokemons.ViewModel)
 }
 

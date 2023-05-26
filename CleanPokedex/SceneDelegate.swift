@@ -17,7 +17,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(windowScene: windowScene)
         let navigationController = UINavigationController(rootViewController: HomeViewController())
-        navigationController.navigationBar.isTranslucent = false
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
     }

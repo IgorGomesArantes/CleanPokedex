@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol DetailsDisplayLogic: class {
+protocol DetailsDisplayLogic: AnyObject {
     func displayDetails(_ viewModel: Details.ShowDetails.ViewModel)
     func displaySelectTab(_ viewModel: Details.SelectTab.ViewModel)
 }
